@@ -1,5 +1,9 @@
 \documentclass{article}
 
+\makeatletter
+\def\input@path{{paper/}}
+\makeatother
+
 \usepackage{style}
 \usepackage{extra}
 
@@ -12,9 +16,6 @@
 \usepackage{booktabs}
 \usepackage{ltablex}
 \keepXColumns
-
-\usetikzlibrary{arrows.meta,decorations.markings}
-
 
 \usepackage[
   backend=bibtex,
@@ -44,8 +45,8 @@ This document is a reusable template for theorem-driven mathematical writing. It
 
 \tableofcontents
 
-\include{chapters/core_template}
-\include{chapters/appendix}
+\include{paper/chapters/core_template}
+\include{paper/chapters/appendix}
 
 \printbibliography
 

@@ -28,23 +28,23 @@ To print a consolidated task list, call:
 
 Let $V$ be a finite-dimensional real inner-product space with norm $\|\cdot\|$. We write
 \[
-\langle x,y\rangle \text{ for the inner product,} \qquad \mathbf{0} \text{ for the zero vector,}
+\langle x,y\rangle \text{ for the inner product} \qquad \mathbf{0} \text{ for the zero vector}
 \]
 and denote the closed unit ball by
 \[
-B:=\setof{x\in V}{\|x\|\le 1}.
+B:=\setof{x\in V}{\|x\|\le 1}
 \]
 
 Given a differentiable map $F:V\to\mathbb{R}$, define the gradient flow residual
 \begin{equation}
 \label{eq:residual}
-\mathcal{R}_\lambda(x):=x-\lambda\nabla F(x),\qquad \lambda>0.
+\mathcal{R}_\lambda(x):=x-\lambda\nabla F(x)\qquad \lambda>0
 \end{equation}
 
 We will repeatedly reference \cref{eq:residual} and the energy functional below:
 \begin{equation}
 \label{eq:energy}
-\mathcal{E}(x):=\frac12\|x\|^2+\Phi(x),
+\mathcal{E}(x):=\frac12\|x\|^2+\Phi(x)
 \end{equation}
 where $\Phi:V\to\mathbb{R}$ is convex and continuously differentiable.
 
@@ -69,7 +69,7 @@ In an actual project, replace \cref{def:admissible-sequence} by your domain-spec
 \label{lem:coercive-bound}
 Assume $\Phi(x)\ge -c_0+c_1\|x\|$ for constants $c_0,c_1\ge 0$. Then
 \[
-\mathcal{E}(x)\ge \frac12\|x\|^2-c_0+c_1\|x\|,
+\mathcal{E}(x)\ge \frac12\|x\|^2-c_0+c_1\|x\|
 \]
 so every sublevel set $\setof{x\in V}{\mathcal{E}(x)\le M}$ is bounded.
 \end{lemma}
@@ -83,7 +83,7 @@ The inequality is immediate from \cref{eq:energy}. Boundedness of sublevel sets 
 Suppose $\nabla F$ is $L$-Lipschitz and $0<\lambda\le L^{-1}$. For an admissible sequence,
 \begin{equation}
 \label{eq:descent}
-F(x_{n+1})\le F(x_n)-\frac{\lambda}{2}\|\nabla F(x_n)\|^2.
+F(x_{n+1})\le F(x_n)-\frac{\lambda}{2}\|\nabla F(x_n)\|^2
 \end{equation}
 \end{proposition}
 
@@ -128,7 +128,7 @@ By \cref{cor:grad-summable}, $\|\nabla F(x_n)\|\to 0$ along a subsequence. Bound
 A common specialization is $V=\mathbb{R}^d$ and
 \begin{equation}
 \label{eq:discrete-model}
-F(x)=\sum_{i=1}^{m}\log\bigl(1+\exp(-b_i\langle a_i,x\rangle)\bigr)+\alpha\|x\|_1,
+F(x)=\sum_{i=1}^{m}\log\bigl(1+\exp(-b_i\langle a_i,x\rangle)\bigr)+\alpha\|x\|_1
 \end{equation}
 where $(a_i,b_i)$ are data and labels. Replace \cref{eq:discrete-model} with your own objective and keep the theorem/proof skeleton intact.
 \end{example}

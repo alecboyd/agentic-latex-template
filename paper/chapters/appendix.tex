@@ -12,11 +12,11 @@ This appendix collects technical material that would interrupt the flow of the m
 From \cref{eq:energy} and the growth assumption on $\Phi$,
 \[
 \mathcal{E}(x)=\frac12\|x\|^2+\Phi(x)
-\ge \frac12\|x\|^2-c_0+c_1\|x\|.
+\ge \frac12\|x\|^2-c_0+c_1\|x\|
 \]
 Now let $M\in\mathbb{R}$ and define
 \[
-\Omega_M:=\setof{x\in V}{\mathcal{E}(x)\le M}.
+\Omega_M:=\setof{x\in V}{\mathcal{E}(x)\le M}
 \]
 If $\|x\|\to\infty$, the right-hand side above tends to $\infty$, so eventually $\mathcal{E}(x)>M$. Hence $\Omega_M$ is bounded.
 \end{proof}
@@ -32,12 +32,11 @@ Let $X,Y,Z$ be topological spaces, with $f:X\to Y$ and $g:Y\to Z$ continuous. Th
 \begin{proof}
 For any open set $U\subseteq Z$, we have
 \[
-(g\circ f)^{-1}(U)=f^{-1}(g^{-1}(U)).
+(g\circ f)^{-1}(U)=f^{-1}(g^{-1}(U))
 \]
-Since $g$ and $f$ are continuous, $g^{-1}(U)$ is open in $Y$ and then $f^{-1}(g^{-1}(U))$ is open in $X$.
+Since $g$ and $f$ are\todo{Example of Inline TODO. Note that you must put the slash immediately after the previous word without space to avoid extra space in the output} continuous, $g^{-1}(U)$ is open in $Y$ and then $f^{-1}(g^{-1}(U))$ is open in $X$.
 \end{proof}
 
-\todo{Example of Inline TODO}
 
 \section{Glossary of Notation}
 \label{sec:notation-appendix}

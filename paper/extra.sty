@@ -72,6 +72,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TODO SYSTEM
 \RequirePackage{xparse}
+\RequirePackage{marginnote}
 
 \makeatletter
 
@@ -88,7 +89,7 @@
   \ifinner
     {\footnotesize\textbf{TODO: #1} #2}%
   \else
-    \marginpar{\raggedright\footnotesize\textbf{TODO: #1}\\#2}%
+    \marginnote{\raggedright\footnotesize\textbf{TODO: #1}\\#2}%
   \fi
 }
 
