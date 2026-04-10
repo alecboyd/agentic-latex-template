@@ -7,8 +7,9 @@ This repository provides a structured LaTeX writing template for theorem-driven 
 - A complete article scaffold with standing notation and assumptions, local lemmas/propositions/corollaries, a main theorem section, and appendix + notation glossary patterns
 - [`paper/style.sty`](paper/style.sty): theorem environments, `cleveref` setup, hyperlink styling, abstract formatting
 - [`paper/extra.sty`](paper/extra.sty): TikZ helpers, math utility commands, TODO/list-of-todos system
-- Reusable figure architecture via wrappers in `paper/figures/` and drawing primitives in `paper/elements/`
+- Reusable figure architecture via wrappers in `paper/figures/examples/` and drawing primitives in `paper/elements/examples/`
 - Bibliography setup with `biblatex` (`backend=bibtex`) using [`paper/refs.bib`](paper/refs.bib)
+- AI-oriented authoring guide in [`style/latex_style_guide.txt`](style/latex_style_guide.txt)
 
 ## Repository Layout
 
@@ -21,13 +22,17 @@ This repository provides a structured LaTeX writing template for theorem-driven 
 |   |-- extra.sty
 |   |-- refs.bib
 |   |-- chapters/
-|   |   |-- core_template.tex
-|   |   `-- appendix.tex
-|   |-- figures/              # Figure wrappers used by chapters
-|   `-- elements/             # Reusable TikZ drawing building blocks
+|   |   `-- examples/
+|   |       |-- core_template.tex
+|   |       `-- appendix.tex
+|   |-- figures/
+|   |   `-- examples/         # Figure wrappers used by chapters
+|   `-- elements/
+|       `-- examples/         # Reusable TikZ drawing building blocks
 |-- prompts/
 |   `-- prompt-readme-gen.txt # Prompt asset for README generation workflows
 `-- style/
+    |-- latex_style_guide.txt
     `-- references_style.tex
 ```
 
@@ -60,9 +65,9 @@ Output: `paper/main.pdf`.
 
 ## Authoring Workflow
 
-1. Edit chapter content in [`paper/chapters/core_template.tex`](paper/chapters/core_template.tex) and [`paper/chapters/appendix.tex`](paper/chapters/appendix.tex).
+1. Edit chapter content in [`paper/chapters/examples/core_template.tex`](paper/chapters/examples/core_template.tex) and [`paper/chapters/examples/appendix.tex`](paper/chapters/examples/appendix.tex).
 2. Update bibliography entries in [`paper/refs.bib`](paper/refs.bib).
-3. Add or modify figures, keeping chapter-facing wrappers in `paper/figures/` and reusable diagram fragments in `paper/elements/`.
+3. Add or modify figures, keeping chapter-facing wrappers in `paper/figures/examples/` and reusable diagram fragments in `paper/elements/examples/`.
 4. Rebuild with `latexmk`.
 
 ## Agentic Workspace
@@ -71,7 +76,7 @@ This repository is designed to be used as an agentic workspace.
 
 - The [`prompts/`](prompts/) folder contains prompt-engineered task prompts used to drive model behavior for specific repository workflows.
 - Prompts reference files in the [`style/`](style/) folder when relevant, so model outputs can follow project-specific writing and formatting conventions.
-- Style files are currently placeholders (for example, [`style/references_style.tex`](style/references_style.tex) is empty right now).
+- Use [`style/latex_style_guide.txt`](style/latex_style_guide.txt) as the primary conventions reference for AI and human edits inside `paper/`.
 - These style files are intentionally user-modifiable and are expected to evolve as your preferences and conventions become more defined.
 
 ## TODO System

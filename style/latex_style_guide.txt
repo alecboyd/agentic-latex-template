@@ -1,0 +1,193 @@
+LATEX STYLE GUIDE (AI-OPTIMIZED)
+Repository: agentic-latex-template
+Scope: conventions used in the paper/ folder
+
+==================================================================
+1) PURPOSE AND SOURCE OF TRUTH
+==================================================================
+Use this file as the operating manual for edits in paper/.
+
+Primary convention files:
+- paper/style.sty  (theorem environments, cleveref behavior, hyperlink style)
+- paper/extra.sty  (TODO system, TikZ helpers, reusable math macros)
+- paper/main.tex   (paper-local compile entrypoint)
+- main.tex         (root compile entrypoint targeting paper/)
+
+If this guide conflicts with code, code wins. Update this guide after code changes.
+
+==================================================================
+2) DIRECTORY CONVENTIONS (CURRENT)
+==================================================================
+Example/template content is intentionally nested under examples/:
+- paper/chapters/examples/*.tex
+- paper/figures/examples/*.tex
+- paper/elements/examples/*.tex
+
+Path roles:
+- chapters/examples: narrative sections that are included by main files
+- figures/examples: lightweight wrappers that arrange one or more drawings
+- elements/examples: low-level reusable TikZ drawing primitives
+
+Dependency direction (do not invert):
+- chapters -> figures/examples
+- figures/examples -> elements/examples
+- elements/examples -> (no chapter/figure imports)
+
+==================================================================
+3) ENTRYPOINT CONVENTIONS
+==================================================================
+Both entrypoints include chapter examples:
+- root main.tex uses:
+  \include{paper/chapters/examples/core_template}
+  \include{paper/chapters/examples/appendix}
+- paper/main.tex uses:
+  \include{chapters/examples/core_template}
+  \include{chapters/examples/appendix}
+
+Do not include element files directly from main files.
+
+==================================================================
+4) LABELING + CROSS-REFERENCE CONVENTIONS
+==================================================================
+Label prefixes are stable and descriptive. Reuse these patterns:
+- sec:     section
+- ssec:    subsection
+- eq:      equation
+- def:     definition
+- rem:     remark
+- lem:     lemma
+- prop:    proposition
+- cor:     corollary
+- thm:     theorem
+- ex:      example
+- app:     appendix-local target
+
+Reference rules:
+- Prefer \cref{...} for cross references.
+- Group references compactly, e.g. \cref{eq:a,eq:b,eq:c}.
+- Keep labels stable; do not rename unless necessary.
+
+Cleveref capitalization behavior:
+- paper/style.sty loads cleveref with [capitalise].
+- \cref renders capitalized names by default (Theorem, Lemma, Equation, etc.).
+- Equation references intentionally omit brackets via:
+  \creflabelformat{equation}{#2\textup{#1}#3}
+
+Appendix mention pattern:
+- Mixed style is acceptable when prose demands it, e.g. "Appendix \ref{...}".
+- Otherwise default to \cref.
+
+==================================================================
+5) TODO SYSTEM CONVENTIONS
+==================================================================
+Defined in paper/extra.sty.
+
+Supported forms:
+- \todo{Task text}
+- \todo[Task text]
+- \listoftodos
+
+Behavior:
+- Margin TODO in normal text flow.
+- Inline fallback in inner environments.
+- Numbered backlinking between in-text TODO and Todo List table.
+
+Spacing rule:
+- For inline placement in a sentence, attach \todo directly where needed.
+- Avoid introducing unwanted spaces around \todo in prose.
+
+Workflow rule:
+- Keep TODO text actionable and concise.
+- Use \listoftodos where a consolidated task snapshot is useful.
+
+==================================================================
+6) SPECIAL BLOCK / THEOREM ENVIRONMENT CONVENTIONS
+==================================================================
+Shaded block environments (mdframed style):
+- definition
+- example
+- remark
+
+Theorem-family environments (custom theorem style):
+- theorem
+- proposition
+- lemma
+- claim
+- conjecture
+- corollary
+
+Proof styling conventions (from style.sty):
+- "Proof" heading is dark-gray sans-serif bold.
+- QED symbol is a dark-gray left-pointing triangle.
+
+Authoring order convention used by template:
+1. Define notation/objects
+2. Give local estimates (lemma/proposition/corollary)
+3. State main theorem
+4. Move long technical checks to appendix
+
+==================================================================
+7) FIGURE CONVENTIONS
+==================================================================
+General:
+- This template uses non-floating figure snippets (center/minipage blocks),
+  not mandatory LaTeX figure floats.
+- Wrappers in paper/figures/examples assemble one or more element drawings.
+- Elements in paper/elements/examples hold reusable TikZ primitives.
+
+Path convention inside wrappers:
+- Always input elements with:
+  \input{elements/examples/<name>}
+
+Path convention inside chapters:
+- Always input wrappers with:
+  \input{figures/examples/<name>}
+
+Styling conventions visible in examples:
+- Use \resizebox{<fraction>\linewidth}{!}{...} for consistent scale control.
+- Keep multi-panel layouts balanced (often three minipages at ~0.31\linewidth).
+- Add short panel captions in \small when useful.
+- End wrapper with one concise italicized summary line.
+- Keep line weights, node sizes, and text density visually consistent across figures.
+
+==================================================================
+8) MATH + NOTATION CONVENTIONS
+==================================================================
+Reusable macros from extra.sty:
+- \setof{expr}{condition}, \set{expr}
+- Number sets: \NN, \ZZ, \QQ, \RR, \CC
+- \eps for \varepsilon
+
+Notation section pattern:
+- Declare standing notation early.
+- Define core maps/functionals in numbered equations with labels.
+- Reuse labels instead of repeating equivalent formulas.
+
+==================================================================
+9) BIBLIOGRAPHY CONVENTIONS
+==================================================================
+Configuration:
+- biblatex with numeric style
+- backend=bibtex
+- bibliography file: paper/refs.bib
+
+Usage:
+- Use \cite{key1,key2} with stable bib keys.
+- Keep bibliography edits isolated to refs.bib when possible.
+
+==================================================================
+10) AI EDITING CHECKLIST (MANDATORY)
+==================================================================
+Before finishing an edit:
+1. Verify all moved files still compile via valid \include/\input paths.
+2. Keep chapter -> figure -> element layering intact.
+3. Preserve label prefixes and existing identifiers whenever possible.
+4. Use \cref by default and keep capitalization conventions untouched.
+5. Do not redefine theorem/TODO systems unless task explicitly requests it.
+6. If structure paths change, update:
+   - root main.tex
+   - paper/main.tex
+   - README.md
+   - this style guide
+
+End of guide.
