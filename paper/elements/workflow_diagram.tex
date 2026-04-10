@@ -1,0 +1,12 @@
+\begin{tikzpicture}[scale=0.95]
+  \node[draw, rounded corners, fill=blue!8, minimum width=2.6cm, minimum height=0.9cm] (assume) at (0,0) {Assumptions};
+  \node[draw, rounded corners, fill=green!8, minimum width=2.6cm, minimum height=0.9cm] (local) at (4.0,0) {Local Lemmas};
+  \node[draw, rounded corners, fill=orange!10, minimum width=2.6cm, minimum height=0.9cm] (main) at (8.0,0) {Main Theorem};
+
+  \node[draw, rounded corners, fill=gray!12, minimum width=2.6cm, minimum height=0.9cm] (appendix) at (4.0,-2.0) {Appendix Details};
+
+  \draw[->, thick] (assume) -- (local);
+  \draw[->, thick] (local) -- (main);
+  \draw[->, thick] (local) -- (appendix);
+  \draw[->, thick] (appendix) -- (main);
+\end{tikzpicture}

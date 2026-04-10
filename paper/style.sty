@@ -1,0 +1,149 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GLOSSARY
+% definitions, examples, and remarks with fancy box
+% theorem, proposition, lemma, claim, corollary, conjecture
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% HYPERLINK SETUP
+\RequirePackage[dvipsnames]{xcolor} % needed for hyperlink colours (duh)
+\RequirePackage{hyperref}
+\newcommand\myshade{85}
+% 3 complementary colours for each type of link
+\colorlet{mylinkcolor}{violet}
+\colorlet{mycitecolor}{YellowOrange}
+\colorlet{myurlcolor}{Aquamarine}
+\hypersetup{
+  linkcolor  = mylinkcolor!\myshade!black,
+  citecolor  = mycitecolor!\myshade!black,
+  urlcolor   = myurlcolor!\myshade!black,
+  colorlinks = true,
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CLEVEREF SETUP
+\RequirePackage{amsthm} % NEEDS TO BE LOADED BEFORE CLEVEREF
+\RequirePackage{amsmath} % NEEDS TO BE LOADED BEFORE CLEVEREF
+\RequirePackage[capitalise]{cleveref} % NEEDS TO BE LOADED BEFORE `newtheorem` DEFINITIONS
+\creflabelformat{equation}{#2\textup{#1}#3} % Removes brackets when referencing equations
+\newcommand{\crefrangeconjunction}{--} % Use en-dash when referencing multiple items in a range
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ENVIRONMENT SETUP
+\RequirePackage[framemethod=tikz]{mdframed} % mdframed is used to draw the boxes
+\RequirePackage[T1]{fontenc} % Required for sans serifs (I think)
+\colorlet{lightergray}{lightgray!50}
+\colorlet{lightestgray}{lightgray!20}
+\mdfdefinestyle{shadedbox}{%
+    frametitlefont=\bfseries\sffamily,
+    theoremtitlefont=\mdseries,
+    theoremseparator={},
+    frametitlebelowskip=0pt,
+    topline=false,  
+    rightline=false,  
+    bottomline=false,  
+    leftline=true,  
+    linecolor=lightgray,  
+    linewidth=3pt,  
+    backgroundcolor=lightestgray
+}
+% Use the fancy box for definitions, examples, and remarks
+\mdtheorem[style=shadedbox]{definition}{Definition}
+\mdtheorem[style=shadedbox]{example}{Example}
+\mdtheorem[style=shadedbox]{remark}{Remark}
+
+\newtheoremstyle{customtheorem}% name of the style to be used
+  {\topsep}% measure of space to leave above the theorem. E.g.: 3pt
+  {\topsep}% measure of space to leave below the theorem. E.g.: 3pt
+  {\itshape}% name of font to use in the body of the theorem
+  {0pt}% measure of space to indent
+  {\color{darkgray}\bfseries\sffamily}% name of head font
+  {.}% punctuation between head and body
+  { }% space after theorem head; " " = normal interword space
+  {$\blacktriangleright$ \thmname{#1}\thmnumber{ #2}\textmd{\thmnote{ #3}}}
+
+% Theorems, propositions, lemmas, claims, conjectures, and corollaries all
+% use the standard theorem style
+\theoremstyle{customtheorem}
+\newtheorem{theorem}{Theorem}[section]
+\theoremstyle{customtheorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{customtheorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{customtheorem}
+\newtheorem{claim}[theorem]{Claim}
+\theoremstyle{customtheorem}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{customtheorem}
+\newtheorem{corollary}[theorem]{Corollary}
+
+% Make \cref use capitalized labels by default.
+\crefname{theorem}{Theorem}{Theorems}
+\crefname{proposition}{Proposition}{Propositions}
+\crefname{lemma}{Lemma}{Lemmas}
+\crefname{claim}{Claim}{Claims}
+\crefname{conjecture}{Conjecture}{Conjectures}
+\crefname{corollary}{Corollary}{Corollaries}
+\crefname{definition}{Definition}{Definitions}
+\crefname{example}{Example}{Examples}
+\crefname{remark}{Remark}{Remarks}
+\crefname{equation}{Equation}{Equations}
+
+% Ensure theorem-like hyperref destinations stay unique when theorem counters
+% reset by section.
+\makeatletter
+\AtBeginDocument{%
+  \def\theHtheorem{\thesection.\arabic{theorem}}%
+  \def\theHproposition{\theHtheorem}%
+  \def\theHlemma{\theHtheorem}%
+  \def\theHclaim{\theHtheorem}%
+  \def\theHconjecture{\theHtheorem}%
+  \def\theHcorollary{\theHtheorem}%
+}
+\makeatother
+
+% These are changes to the proof environment
+\let\oldproofname=\proofname
+% Changes the formatting for the 'Proof.' text at the start of the environment
+\renewcommand{\proofname}{\color{darkgray}\sffamily\bfseries\upshape{\oldproofname}} 
+% Changes the qed symbol to be a left pointing triangle
+\renewcommand{\qedsymbol}{\color{darkgray}$\blacktriangleleft$}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{enumitem}
+\setlist{nosep}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{changepage}
+\renewenvironment{abstract}[1][2em]
+{
+\begin{adjustwidth}{#1}{#1}
+\bfseries
+Abstract. \mdseries
+}
+{
+\end{adjustwidth}
+\par
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage{amssymb} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MISC
+% Make emptyset symbol nicer (you can still access it via \oldemptyset)
+\let\oldemptyset\emptyset
+\let\emptyset\varnothing
+
+% Proofsubparagraph definition
+% Commands using @ need to go between \makeatletter and \makeatother
+\makeatletter
+\newcommand{\proofsubparagraph}{\@startsection{subparagraph}{5}{0pt}{3.25ex plus 1ex minus .2ex}{-1em}{\color{darkgray}\bfseries\normalsize\sffamily}}
+\makeatother
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

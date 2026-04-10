@@ -1,0 +1,56 @@
+\appendix
+
+\section{Technical Appendix}
+\label{sec:technical-appendix}
+
+This appendix collects technical material that would interrupt the flow of the main narrative.
+
+\subsection{Detailed Proof Placeholder}
+\label{app:proof-coercive-bound}
+
+\begin{proof}[Expanded proof of \cref{lem:coercive-bound}]
+From \cref{eq:energy} and the growth assumption on $\Phi$,
+\[
+\mathcal{E}(x)=\frac12\|x\|^2+\Phi(x)
+\ge \frac12\|x\|^2-c_0+c_1\|x\|.
+\]
+Now let $M\in\mathbb{R}$ and define
+\[
+\Omega_M:=\setof{x\in V}{\mathcal{E}(x)\le M}.
+\]
+If $\|x\|\to\infty$, the right-hand side above tends to $\infty$, so eventually $\mathcal{E}(x)>M$. Hence $\Omega_M$ is bounded.
+\end{proof}
+
+\subsection{Reusable Lemma Skeleton}
+\label{app:lemma-skeleton}
+
+\begin{lemma}[Continuity under Composition]
+\label{lem:composition-template}
+Let $X,Y,Z$ be topological spaces, with $f:X\to Y$ and $g:Y\to Z$ continuous. Then $g\circ f:X\to Z$ is continuous.
+\end{lemma}
+
+\begin{proof}
+For any open set $U\subseteq Z$, we have
+\[
+(g\circ f)^{-1}(U)=f^{-1}(g^{-1}(U)).
+\]
+Since $g$ and $f$ are continuous, $g^{-1}(U)$ is open in $Y$ and then $f^{-1}(g^{-1}(U))$ is open in $X$.
+\end{proof}
+
+\todo{Example of Inline TODO}
+
+\section{Glossary of Notation}
+\label{sec:notation-appendix}
+
+\begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}p{2.7cm} p{6.0cm} X @{}}
+\toprule
+\textbf{Notation} & \textbf{Description} & \textbf{Reference} \\
+\midrule
+$V$ & Ambient finite-dimensional vector space. & \cref{ssec:standing-notation} \\
+$F$ & Objective functional in the main argument. & \cref{ssec:standing-notation} \\
+$\mathcal{R}_\lambda$ & Residual/update map. & \cref{eq:residual} \\
+$\mathcal{E}$ & Energy functional. & \cref{eq:energy} \\
+$(x_n)$ & Admissible sequence. & \cref{def:admissible-sequence} \\
+\(\Omega_M\) & Template sublevel set used in coercivity arguments. & \cref{app:proof-coercive-bound} \\
+\bottomrule
+\end{tabularx}

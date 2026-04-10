@@ -1,0 +1,160 @@
+\section{How to Use This Template}
+\label{sec:template-workflow}
+
+This chapter is intentionally written as mathematically plausible placeholder exposition. The goal is to offer a strong starting structure rather than minimal filler. The recommended workflow is:
+\begin{enumerate}
+    \item declare assumptions and notation early,
+    \item state local lemmas before global statements,
+    \item keep labels stable and descriptive,
+    \item move long technical checks to the appendix.
+\end{enumerate}
+
+For style guidance, compare the compact statement in \cref{lem:coercive-bound} with the full proof in Appendix \ref{app:proof-coercive-bound}. For citation examples, see \cite{rudin1976principles,evans2010pde}.
+
+\subsection{Template TODO Workflow}
+\label{ssec:template-todos}
+
+The template includes an integrated TODO system for in-draft task tracking.
+Typical usage is to leave short actionable items in context:
+\todo{Replace the placeholder title and author block in main.tex.}
+\todo[State theorem assumptions as a numbered list before long proofs.]
+\todo{Add one domain-specific running example in the first section.}
+
+To print a consolidated task list, call:
+\listoftodos
+
+\subsection{Standing Notation}
+\label{ssec:standing-notation}
+
+Let $V$ be a finite-dimensional real inner-product space with norm $\|\cdot\|$. We write
+\[
+\langle x,y\rangle \text{ for the inner product,} \qquad \mathbf{0} \text{ for the zero vector,}
+\]
+and denote the closed unit ball by
+\[
+B:=\setof{x\in V}{\|x\|\le 1}.
+\]
+
+Given a differentiable map $F:V\to\mathbb{R}$, define the gradient flow residual
+\begin{equation}
+\label{eq:residual}
+\mathcal{R}_\lambda(x):=x-\lambda\nabla F(x),\qquad \lambda>0.
+\end{equation}
+
+We will repeatedly reference \cref{eq:residual} and the energy functional below:
+\begin{equation}
+\label{eq:energy}
+\mathcal{E}(x):=\frac12\|x\|^2+\Phi(x),
+\end{equation}
+where $\Phi:V\to\mathbb{R}$ is convex and continuously differentiable.
+
+\begin{definition}[Admissible Sequence]
+\label{def:admissible-sequence}
+A sequence $(x_n)_{n\ge 0}$ in $V$ is \emph{admissible} if there exists $\lambda\in(0,1]$ such that
+\[
+x_{n+1}=\mathcal{R}_\lambda(x_n)
+\]
+for all $n\ge 0$.
+\end{definition}
+
+\begin{remark}
+\label{rem:adapt-model}
+In an actual project, replace \cref{def:admissible-sequence} by your domain-specific object and keep the same pattern: definition, immediate comment, first estimate, then structural theorem.
+\end{remark}
+
+\subsection{Sample Local Estimates}
+\label{ssec:local-estimates}
+
+\begin{lemma}[Coercive Bound]
+\label{lem:coercive-bound}
+Assume $\Phi(x)\ge -c_0+c_1\|x\|$ for constants $c_0,c_1\ge 0$. Then
+\[
+\mathcal{E}(x)\ge \frac12\|x\|^2-c_0+c_1\|x\|,
+\]
+so every sublevel set $\setof{x\in V}{\mathcal{E}(x)\le M}$ is bounded.
+\end{lemma}
+
+\begin{proof}
+The inequality is immediate from \cref{eq:energy}. Boundedness of sublevel sets follows because the right-hand side grows quadratically in $\|x\|$.
+\end{proof}
+
+\begin{proposition}[One-Step Descent]
+\label{prop:descent}
+Suppose $\nabla F$ is $L$-Lipschitz and $0<\lambda\le L^{-1}$. For an admissible sequence,
+\begin{equation}
+\label{eq:descent}
+F(x_{n+1})\le F(x_n)-\frac{\lambda}{2}\|\nabla F(x_n)\|^2.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Apply the standard smoothness inequality for $F$ at $(x_n,x_{n+1})$ and substitute $x_{n+1}=x_n-\lambda\nabla F(x_n)$.
+\end{proof}
+
+\begin{corollary}[Summability of the Gradient]
+\label{cor:grad-summable}
+Under the assumptions of \cref{prop:descent},
+\[
+\sum_{n=0}^{N}\|\nabla F(x_n)\|^2
+\le \frac{2}{\lambda}\bigl(F(x_0)-\inf_V F\bigr)
+\]
+for every $N\in\mathbb{N}$.
+\end{corollary}
+
+\begin{proof}
+Sum \cref{eq:descent} from $n=0$ to $N$ and telescope.
+\end{proof}
+
+\subsection{Sample Main Statement}
+\label{ssec:main-statement}
+
+\begin{theorem}[Template Convergence Statement]
+\label{thm:template-convergence}
+Let $(x_n)$ be admissible. Assume:
+\begin{enumerate}
+    \item $F$ is bounded below and has $L$-Lipschitz gradient,
+    \item every bounded sequence in $V$ has a convergent subsequence,
+    \item the set of critical points of $F$ is closed.
+\end{enumerate}
+Then every accumulation point of $(x_n)$ is critical for $F$.
+\end{theorem}
+
+\begin{proof}
+By \cref{cor:grad-summable}, $\|\nabla F(x_n)\|\to 0$ along a subsequence. Boundedness follows from \cref{lem:coercive-bound}, so compactness yields a convergent subsequence $x_{n_k}\to x_\ast$. Continuity of $\nabla F$ gives $\nabla F(x_\ast)=0$.
+\end{proof}
+
+\begin{example}[Discrete Model Prompt]
+\label{ex:discrete-model}
+A common specialization is $V=\mathbb{R}^d$ and
+\begin{equation}
+\label{eq:discrete-model}
+F(x)=\sum_{i=1}^{m}\log\bigl(1+\exp(-b_i\langle a_i,x\rangle)\bigr)+\alpha\|x\|_1,
+\end{equation}
+where $(a_i,b_i)$ are data and labels. Replace \cref{eq:discrete-model} with your own objective and keep the theorem/proof skeleton intact.
+\end{example}
+
+\begin{remark}
+\label{rem:appendix-ref}
+If a proof becomes long, retain the theorem in the main text and move routine verification to Appendix \ref{sec:technical-appendix}, as illustrated in \cref{app:proof-coercive-bound}.
+\end{remark}
+
+\subsection{Template Figures and Inputs}
+\label{ssec:template-figures}
+
+This section doubles as a reusable TikZ gallery. The layout keeps the project convention that chapter text includes lightweight wrappers from `figures/`, while each wrapper can reuse modular drawing fragments from `elements/`.
+
+\input{figures/figure_iterative_profiles}
+\input{figures/figure_workflow_overview}
+\input{figures/figure_category_diagram}
+\input{figures/figure_graph_gallery}
+\input{figures/figure_xy_and_complex_plane}
+\input{figures/figure_poset_example}
+
+When adapting these figures, keep style choices consistent: similar line weights, comparable node sizing, and concise labels that avoid collisions at final print scale.
+
+\subsection{Cross-Reference Checklist}
+\label{ssec:checklist}
+
+This chapter intentionally demonstrates references to equations \cref{eq:residual,eq:energy,eq:descent}, definition \cref{def:admissible-sequence}, theorem \cref{thm:template-convergence}, and appendix sections \cref{sec:technical-appendix,sec:notation-appendix}.
+
+For additional writing style examples, see \cite{tao2011book,knuth1984texbook}.

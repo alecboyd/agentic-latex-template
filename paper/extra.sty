@@ -1,0 +1,138 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Extra reusable helpers for mathematical drafting.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TIKZ
+\RequirePackage{tikz}
+\usetikzlibrary{positioning, quotes, decorations.pathmorphing, arrows.meta, shapes, calc, matrix}
+\tikzset{>={Computer Modern Rightarrow[scale=1.1]}}
+\tikzset{snake it/.style={decorate, decoration={snake, amplitude=1.5pt, segment length=12pt}}}
+\tikzset{dot/.style={circle, fill, inner sep=1.4pt}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GENERIC SYMBOLS/COMMANDS
+\newlength\oversetwidth
+\newlength\underwidth
+
+% Text over equal sign with proper spacing.
+\newcommand{\overeq}[1]
+{\ensuremath{
+  \settowidth\oversetwidth{$\overset{\mathrm{#1}}{=}$}
+  \settowidth\underwidth{$=$}
+  \setlength\oversetwidth{\oversetwidth-\underwidth}
+  \hspace{.5\oversetwidth}
+  \settowidth\oversetwidth{$\overset{\mathrm{#1}}{=}$}
+  \settowidth\underwidth{$=$}
+  \setlength\oversetwidth{\oversetwidth-\underwidth}
+  \hspace{-.5\oversetwidth}
+  \overset{\mathrm{#1}}{=}
+}}
+
+% Variant for align environments.
+\newcommand\aovereq[1]{
+\ensuremath{
+  \settowidth\oversetwidth{$\overset{\mathrm{#1}}{=}$}
+  \settowidth\underwidth{$=$}
+  \setlength\oversetwidth{\oversetwidth-\underwidth}
+  \hspace{.5\oversetwidth}
+  &
+  \settowidth\oversetwidth{$\overset{\mathrm{#1}}{=}$}
+  \settowidth\underwidth{$=$}
+  \setlength\oversetwidth{\oversetwidth-\underwidth}
+  \hspace{-.5\oversetwidth}
+  \overset{\mathrm{#1}}{=}
+}}
+
+\newcommand{\setof}[2]{\ensuremath{\left\{#1\,|\,#2\right\}}}
+\newcommand{\set}[1]{\ensuremath{\left\{#1\right\}}}
+
+\newcommand\NN{\mathbb{N}}
+\newcommand\ZZ{\mathbb{Z}}
+\newcommand\QQ{\mathbb{Q}}
+\newcommand\RR{\mathbb{R}}
+\newcommand\CC{\mathbb{C}}
+\newcommand\eps{\varepsilon}
+
+% Not xrightarrow
+\newlength\arrowwidth
+\newcommand\nxrightarrow[1]{
+\ensuremath{\mathrel{
+    \settowidth\arrowwidth{$\xrightarrow{#1}$}
+    \rlap{$\xrightarrow{#1}$}
+    \hspace{.5\arrowwidth}
+    \clap{\raisebox{.125em}{\tiny/}}
+    \hspace{.5\arrowwidth}
+}}}
+
+\RequirePackage{latexsym}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TODO SYSTEM
+\RequirePackage{xparse}
+
+\makeatletter
+
+\newcounter{todocounter}
+\newcommand{\alltodos}{}
+
+% This gets executed from the .aux file on the next run.
+\newcommand{\todoauxentry}[2]{%
+  \g@addto@macro\alltodos{\todoListRow{#1}{#2}}%
+}
+
+% Inline format.
+\newcommand{\todoformat}[2]{%
+  \ifinner
+    {\footnotesize\textbf{TODO: #1} #2}%
+  \else
+    \marginpar{\raggedright\footnotesize\textbf{TODO: #1}\\#2}%
+  \fi
+}
+
+% One row in the printed list.
+\newcommand{\todoListRow}[2]{%
+  \hypertarget{todolist.#1}{}\hyperlink{todo.#1}{\textbf{#1}} & #2\\%
+}
+
+% Print the list wherever desired.
+\newcommand{\listoftodos}{%
+  \section*{Todo List}
+  \begin{tabularx}{\textwidth}{@{}p{1.8cm}X@{}}
+    \toprule
+    \textbf{\#} & \textbf{Caption} \\
+    \midrule
+    \ifx\alltodos\@empty
+      \multicolumn{2}{@{}l@{}}{\textit{No todos found.}}\\
+    \else
+      \alltodos
+    \fi
+    \bottomrule
+  \end{tabularx}
+}
+
+% Internal command.
+\newcommand{\todo@do}[1]{%
+  \refstepcounter{todocounter}%
+  \hypertarget{todo.\thetodocounter}{}%
+  \protected@write\@auxout{}{%
+    \string\todoauxentry{\thetodocounter}{#1}%
+  }%
+  \todoformat{\hyperlink{todolist.\thetodocounter}{\thetodocounter}}{#1}%
+}
+
+% Allow both \todo{...} and \todo[...].
+\NewDocumentCommand{\todo}{ d[] g }{%
+  \IfNoValueTF{#1}
+    {%
+      \IfNoValueTF{#2}
+        {\PackageError{todo}{Missing todo caption}{}}
+        {\todo@do{#2}}%
+    }
+    {\todo@do{#1}}%
+}
+
+\makeatother
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

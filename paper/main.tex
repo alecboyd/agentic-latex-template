@@ -1,0 +1,49 @@
+\documentclass{article}
+
+\usepackage{style}
+\usepackage{extra}
+
+\usepackage{setspace}
+\usepackage{parskip}
+\usepackage{float}
+\usepackage[bottom]{footmisc}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{ltablex}
+\keepXColumns
+
+\usepackage[
+  backend=bibtex,
+  style=numeric,
+  citestyle=numeric,
+  doi=true,
+  url=true,
+  isbn=false
+]{biblatex}
+\addbibresource{refs.bib}
+
+\title{Mathematical Writing Template: Structured Draft}
+\author{Author Name}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}[2em]
+This document is a reusable template for theorem-driven mathematical writing. It demonstrates a practical workflow for introducing notation, stating assumptions, proving intermediate claims, and organizing appendices and references. Replace placeholders progressively while preserving labels, references, and structural conventions.
+\end{abstract}
+
+% TODO system examples:
+% \todo{Track open exposition task}
+% \listoftodos
+
+\tableofcontents
+
+\include{chapters/core_template}
+\include{chapters/appendix}
+
+\printbibliography
+
+\end{document}

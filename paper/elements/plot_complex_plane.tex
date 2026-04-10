@@ -1,0 +1,22 @@
+\begin{tikzpicture}[scale=1.0]
+  \draw[->] (-3.2,0.0) -- (3.35,0.0) node[right] {\(\mathrm{Re}\,z\)};
+  \draw[->] (0.0,-3.0) -- (0.0,3.1) node[above] {\(\mathrm{Im}\,z\)};
+
+  \fill[YellowOrange!20] (0.0,0.0) -- (18:2.2) arc[start angle=18, end angle=66, radius=2.2] -- cycle;
+  \draw[line width=0.95pt, Blue] (0.0,0.0) circle (2.2);
+  \draw[line width=0.95pt, ForestGreen!80!black, dashed] (0.0,0.0) circle (1.35);
+
+  \draw[->, line width=0.95pt, YellowOrange!85!black] (0.0,0.0) -- (52:1.95) node[midway, above left] {\scriptsize \(re^{i\theta}\)};
+  \draw[line width=0.8pt] (0.72,0.0) arc[start angle=0, end angle=52, radius=0.72];
+  \node[font=\scriptsize] at (1.02,0.32) {\(\theta\)};
+
+  \filldraw[ForestGreen!80!black] (0:1.35) circle (1.5pt) node[below right] {\(\,1\)};
+  \filldraw[ForestGreen!80!black] (120:1.35) circle (1.5pt) node[above left] {\(\,\omega\)};
+  \filldraw[ForestGreen!80!black] (240:1.35) circle (1.5pt) node[below left] {\(\,\omega^2\)};
+
+  \filldraw[BrickRed] (52:2.2) circle (1.6pt) node[above right] {\(z_0\)};
+  \draw[BrickRed, line width=0.95pt] (0.0,0.0) -- (52:2.2);
+
+  \node[font=\scriptsize, anchor=west] at (2.45,2.2) {\(|z|=2.2\)};
+  \node[font=\scriptsize, ForestGreen!60!black, anchor=west] at (1.6,-1.75) {\(|z|=1.35\)};
+\end{tikzpicture}

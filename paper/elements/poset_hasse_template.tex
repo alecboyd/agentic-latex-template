@@ -1,0 +1,31 @@
+\begin{tikzpicture}[
+  scale=1.0,
+  hasse/.style={circle, draw=black, fill=white, inner sep=0pt, minimum size=13pt},
+  every node/.style={font=\small}
+]
+  \node[hasse] (bot) at (0.0,0.0) {};
+  \node[hasse] (a) at (-2.0,1.35) {};
+  \node[hasse] (b) at (0.0,1.35) {};
+  \node[hasse] (c) at (2.0,1.35) {};
+  \node[hasse] (d) at (-1.0,2.7) {};
+  \node[hasse] (e) at (1.0,2.7) {};
+  \node[hasse] (top) at (0.0,4.0) {};
+
+  \draw[line width=0.9pt] (bot) -- (a);
+  \draw[line width=0.9pt] (bot) -- (b);
+  \draw[line width=0.9pt] (bot) -- (c);
+  \draw[line width=0.9pt] (a) -- (d);
+  \draw[line width=0.9pt] (b) -- (d);
+  \draw[line width=0.9pt] (b) -- (e);
+  \draw[line width=0.9pt] (c) -- (e);
+  \draw[line width=0.9pt] (d) -- (top);
+  \draw[line width=0.9pt] (e) -- (top);
+
+  \node[below=1.8pt] at (bot) {\(\hat{0}\)};
+  \node[left=1.8pt] at (a) {\(a\)};
+  \node[right=1.8pt] at (b) {\(b\)};
+  \node[right=1.8pt] at (c) {\(c\)};
+  \node[left=1.8pt] at (d) {\(d\)};
+  \node[right=1.8pt] at (e) {\(e\)};
+  \node[above=1.8pt] at (top) {\(\hat{1}\)};
+\end{tikzpicture}
