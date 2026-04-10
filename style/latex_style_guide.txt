@@ -1,193 +1,138 @@
-LATEX STYLE GUIDE (AI-OPTIMIZED)
+LATEX STYLE GUIDE
 Repository: agentic-latex-template
-Scope: conventions used in the paper/ folder
+Scope: all AI edits to LaTeX content and LaTeX support files
 
 ==================================================================
-1) PURPOSE AND SOURCE OF TRUTH
+1) GOAL OF THIS GUIDE
 ==================================================================
-Use this file as the operating manual for edits in paper/.
+This guide is about making high-quality LaTeX contributions, not just changing files.
+When editing, optimize for:
+- typographic quality
+- mathematical clarity
+- stable cross-references
+- low-friction maintainability
+- minimal surprise for future editors
 
-Primary convention files:
-- paper/style.sty  (theorem environments, cleveref behavior, hyperlink style)
-- paper/extra.sty  (TODO system, TikZ helpers, reusable math macros)
-- paper/main.tex   (paper-local compile entrypoint)
-- main.tex         (root compile entrypoint targeting paper/)
-
-If this guide conflicts with code, code wins. Update this guide after code changes.
-
-==================================================================
-2) DIRECTORY CONVENTIONS (CURRENT)
-==================================================================
-Example/template content is intentionally nested under examples/:
-- paper/chapters/examples/*.tex
-- paper/figures/examples/*.tex
-- paper/elements/examples/*.tex
-
-Path roles:
-- chapters/examples: narrative sections that are included by main files
-- figures/examples: lightweight wrappers that arrange one or more drawings
-- elements/examples: low-level reusable TikZ drawing primitives
-
-Dependency direction (do not invert):
-- chapters -> figures/examples
-- figures/examples -> elements/examples
-- elements/examples -> (no chapter/figure imports)
+If this guide conflicts with repository code, code is the source of truth.
 
 ==================================================================
-3) ENTRYPOINT CONVENTIONS
+2) FOLDER ROLES (USE THESE DIRECTLY)
 ==================================================================
-Both entrypoints include chapter examples:
-- root main.tex uses:
-  \include{paper/chapters/examples/core_template}
-  \include{paper/chapters/examples/appendix}
-- paper/main.tex uses:
-  \include{chapters/examples/core_template}
-  \include{chapters/examples/appendix}
+- paper/chapters: narrative document content
+- paper/figures: figure wrappers (layout/caption context)
+- paper/elements: reusable TikZ drawing components
+- paper/style.sty: theorem/reference/style conventions
+- paper/extra.sty: helper macros, TikZ setup, TODO system
 
-Do not include element files directly from main files.
+Dependency direction:
+- chapters -> figures
+- figures -> elements
+- elements -> no chapter or figure imports
 
-==================================================================
-4) LABELING + CROSS-REFERENCE CONVENTIONS
-==================================================================
-Label prefixes are stable and descriptive. Reuse these patterns:
-- sec:     section
-- ssec:    subsection
-- eq:      equation
-- def:     definition
-- rem:     remark
-- lem:     lemma
-- prop:    proposition
-- cor:     corollary
-- thm:     theorem
-- ex:      example
-- app:     appendix-local target
-
-Reference rules:
-- Prefer \cref{...} for cross references.
-- Group references compactly, e.g. \cref{eq:a,eq:b,eq:c}.
-- Keep labels stable; do not rename unless necessary.
-
-Cleveref capitalization behavior:
-- paper/style.sty loads cleveref with [capitalise].
-- \cref renders capitalized names by default (Theorem, Lemma, Equation, etc.).
-- Equation references intentionally omit brackets via:
-  \creflabelformat{equation}{#2\textup{#1}#3}
-
-Appendix mention pattern:
-- Mixed style is acceptable when prose demands it, e.g. "Appendix \ref{...}".
-- Otherwise default to \cref.
+Hard safety rule:
+- NEVER modify anything inside any examples subfolder unless explicitly requested.
+  Examples:
+  - paper/chapters/examples/
+  - paper/figures/examples/
+  - paper/elements/examples/
 
 ==================================================================
-5) TODO SYSTEM CONVENTIONS
+3) MATH WRITING QUALITY RULES
 ==================================================================
-Defined in paper/extra.sty.
+- Keep display math semantically tight; avoid prose inside equations unless necessary.
+- Prefer one idea per displayed equation.
+- Use aligned environments for multi-line derivations instead of manual spacing hacks.
+- Do not use inline math for long expressions that hurt line breaks.
+- Keep notation consistent with existing symbols in the current document.
+- Prefer semantic commands/macros already defined in the repo over raw symbol repetition.
 
+Punctuation convention around equations:
+- Avoid sentence punctuation inside \[...\] and equation environments unless explicitly requested.
+
+==================================================================
+4) MACRO POLICY
+==================================================================
+Create macros when they reduce repeated medium-to-large editing burden.
+Good candidates:
+- repeated structured expressions
+- repeated formatting idioms
+- repeated diagram style fragments
+
+Do NOT create macros for one-off symbols or trivial single-use shorthands.
+When adding macros:
+- place them in the correct style/helper file (usually paper/extra.sty)
+- choose descriptive names
+- avoid collisions with standard LaTeX package commands
+- prefer backwards-compatible additions over breaking renames
+- add comments / documentation to the macros
+
+==================================================================
+5) CROSS-REFERENCING RULES
+==================================================================
+Use stable labels and reference through \cref by default.
+
+Label prefixes:
+- sec:, ssec:, sssec:
+- eq:
+- def:, rem:, lem:, prop:, cor:, thm:, ex:
+- app:
+
+Reference quality rules:
+- prefer \cref{...} over raw \ref{...} for theorem-like and equation references
+- do not rename existing labels unless required for correctness
+- when moving content, preserve label IDs whenever possible
+- write labels with dashes between words, example "sec:measure-theory"
+
+==================================================================
+6) TODO USAGE RULES
+==================================================================
 Supported forms:
-- \todo{Task text}
-- \todo[Task text]
+- \todo{...}
 - \listoftodos
 
-Behavior:
-- Margin TODO in normal text flow.
-- Inline fallback in inner environments.
-- Numbered backlinking between in-text TODO and Todo List table.
+Authoring rules:
+- keep TODO text actionable and concise
+- use TODOs for editing tasks, not long explanations
+- use \listoftodos when a consolidated task list is needed
 
-Spacing rule:
-- For inline placement in a sentence, attach \todo directly where needed.
-- Avoid introducing unwanted spaces around \todo in prose.
-
-Workflow rule:
-- Keep TODO text actionable and concise.
-- Use \listoftodos where a consolidated task snapshot is useful.
+Inline spacing rule (important):
+- When inserting \todo in a sentence, place the \ directly next to the previous word without a space to avoid extra spacing in the output
 
 ==================================================================
-6) SPECIAL BLOCK / THEOREM ENVIRONMENT CONVENTIONS
+7) FIGURE CONTRIBUTION RULES
 ==================================================================
-Shaded block environments (mdframed style):
-- definition
-- example
-- remark
-
-Theorem-family environments (custom theorem style):
-- theorem
-- proposition
-- lemma
-- claim
-- conjecture
-- corollary
-
-Proof styling conventions (from style.sty):
-- "Proof" heading is dark-gray sans-serif bold.
-- QED symbol is a dark-gray left-pointing triangle.
-
-Authoring order convention used by template:
-1. Define notation/objects
-2. Give local estimates (lemma/proposition/corollary)
-3. State main theorem
-4. Move long technical checks to appendix
+- Put layout/context composition in paper/figures.
+- Put reusable drawing primitives in paper/elements.
+- Do not duplicate large TikZ blocks across multiple files; extract shared parts.
+- Keep line widths, node sizing, and label density visually consistent within a figure set.
+- Prefer descriptive node/style names over opaque short names when adding new complex diagrams.
 
 ==================================================================
-7) FIGURE CONVENTIONS
+8) BIBLIOGRAPHY AND CITATION RULES
 ==================================================================
-General:
-- This template uses non-floating figure snippets (center/minipage blocks),
-  not mandatory LaTeX figure floats.
-- Wrappers in paper/figures/examples assemble one or more element drawings.
-- Elements in paper/elements/examples hold reusable TikZ primitives.
-
-Path convention inside wrappers:
-- Always input elements with:
-  \input{elements/examples/<name>}
-
-Path convention inside chapters:
-- Always input wrappers with:
-  \input{figures/examples/<name>}
-
-Styling conventions visible in examples:
-- Use \resizebox{<fraction>\linewidth}{!}{...} for consistent scale control.
-- Keep multi-panel layouts balanced (often three minipages at ~0.31\linewidth).
-- Add short panel captions in \small when useful.
-- End wrapper with one concise italicized summary line.
-- Keep line weights, node sizes, and text density visually consistent across figures.
+- Keep bibliography entries in paper/refs.bib.
+- Use stable citation keys.
+- Prefer existing citation style behavior; do not change backend/style configuration unless requested.
+- When editing prose, ensure every new citation key resolves.
+- Add comments and documentation for each citation you add.
 
 ==================================================================
-8) MATH + NOTATION CONVENTIONS
+9) COMPILATION AND VALIDATION
 ==================================================================
-Reusable macros from extra.sty:
-- \setof{expr}{condition}, \set{expr}
-- Number sets: \NN, \ZZ, \QQ, \RR, \CC
-- \eps for \varepsilon
-
-Notation section pattern:
-- Declare standing notation early.
-- Define core maps/functionals in numbered equations with labels.
-- Reuse labels instead of repeating equivalent formulas.
+Before finalizing LaTeX edits:
+1. Compile and confirm no new hard errors.
+2. Check for broken references from moved/renamed labels.
+3. Check that new TODO insertions did not degrade line spacing.
+4. Confirm includes/inputs follow chapters -> figures -> elements layering.
+5. Avoid unrelated formatting churn in untouched sections.
 
 ==================================================================
-9) BIBLIOGRAPHY CONVENTIONS
+10) AI CONTRIBUTION STANDARD
 ==================================================================
-Configuration:
-- biblatex with numeric style
-- backend=bibtex
-- bibliography file: paper/refs.bib
+Every LaTeX change should be:
+- correct
+- consistent with existing conventions
+- minimal but complete
+- easy for a human collaborator to continue from
 
-Usage:
-- Use \cite{key1,key2} with stable bib keys.
-- Keep bibliography edits isolated to refs.bib when possible.
-
-==================================================================
-10) AI EDITING CHECKLIST (MANDATORY)
-==================================================================
-Before finishing an edit:
-1. Verify all moved files still compile via valid \include/\input paths.
-2. Keep chapter -> figure -> element layering intact.
-3. Preserve label prefixes and existing identifiers whenever possible.
-4. Use \cref by default and keep capitalization conventions untouched.
-5. Do not redefine theorem/TODO systems unless task explicitly requests it.
-6. If structure paths change, update:
-   - root main.tex
-   - paper/main.tex
-   - README.md
-   - this style guide
-
-End of guide.
+Do not optimize for cleverness; optimize for document quality and maintainability.
