@@ -10,12 +10,12 @@
   \node[state] (s4) at (4.3,-1.4) {\(s_4\)};
   \node[state] (s5) at (6.6, 0.0) {\(s_5\)};
 
-  \draw[-{Stealth}, line width=0.9pt] (s0) -- (s1);
-  \draw[-{Stealth}, line width=0.9pt] (s0) -- (s2);
-  \draw[-{Stealth}, line width=0.9pt] (s1) -- (s3);
-  \draw[-{Stealth}, line width=0.9pt] (s1) -- (s4);
-  \draw[-{Stealth}, line width=0.9pt] (s2) to[bend left=25] (s4);
-  \draw[-{Stealth}, line width=0.9pt] (s3) -- (s5);
-  \draw[-{Stealth}, line width=0.9pt] (s4) -- (s5);
-  \draw[-{Stealth}, line width=0.9pt] (s4) to[bend left=25] node[below] {\(\alpha\)} (s2);
+  \draw[-{Stealth}, line width=0.9pt] (s1) -- (s0);
+  \draw[-{Stealth}, line width=0.9pt] (s2) -- (s0);
+  \draw[-{Stealth}, line width=0.9pt] (s3) -- (s1);
+  \draw[-{Stealth}, line width=0.9pt] (s4) -- (s1);
+  \draw[-{Stealth}, line width=0.9pt] (s4) to[bend left=25] (s2);
+  \draw[-{Stealth}, line width=0.9pt] (s5) -- (s3);
+  \draw[-{Stealth}, line width=0.9pt] (s5) -- (s4);
+  \draw[-{Stealth}, line width=0.9pt] (s2) to[bend left=25] node[below] {\(\alpha\)} (s4);
 \end{tikzpicture}
