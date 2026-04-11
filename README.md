@@ -5,17 +5,20 @@ This repository provides a structured LaTeX writing template for theorem-driven 
 ## What You Get
 
 - A complete article scaffold with standing notation and assumptions, local lemmas/propositions/corollaries, a main theorem section, and appendix + notation glossary patterns
+- Two compile entrypoints: [`main.tex`](main.tex) (root build) and [`paper/main.tex`](paper/main.tex) (in-folder build)
 - [`paper/style.sty`](paper/style.sty): theorem environments, `cleveref` setup, hyperlink styling, abstract formatting
 - [`paper/extra.sty`](paper/extra.sty): TikZ helpers, math utility commands, TODO/list-of-todos system
 - Reusable figure architecture via wrappers in `paper/figures/examples/` and drawing primitives in `paper/elements/examples/`
 - Bibliography setup with `biblatex` (`backend=bibtex`) using [`paper/refs.bib`](paper/refs.bib)
 - AI-oriented authoring guide in [`style/latex_style_guide.txt`](style/latex_style_guide.txt)
+- Prompt assets for repository workflows in [`prompts/`](prompts/)
 
 ## Repository Layout
 
 ```text
 .
 |-- main.tex                  # Root compile entrypoint (targets content in paper/)
+|-- README.md
 |-- paper/
 |   |-- main.tex              # Standalone compile entrypoint inside paper/
 |   |-- style.sty
@@ -30,13 +33,15 @@ This repository provides a structured LaTeX writing template for theorem-driven 
 |   `-- elements/
 |       `-- examples/         # Reusable TikZ drawing building blocks
 |-- prompts/
-|   `-- prompt-readme-gen.txt # Prompt asset for README generation workflows
+|   |-- 0 - Meta/
+|   |-- 1 - Transfer and Maintenence/
+|   |-- 2 - Paper Tasks/
+|   `-- 3 - Mathematical Tasks/
 `-- style/
-    |-- latex_style_guide.txt
-    `-- references_style.tex
+    `-- latex_style_guide.txt
 ```
 
-`src/` and `experiments/` are present as directories but currently contain no files. They are intended to be used for heuristic programmed experiments, so that gathered data and code can exist within the same context window as the paper itself. 
+`src/`, `experiments/`, and `merge/` are present as directories and are currently empty.
 
 ## Requirements
 
@@ -63,21 +68,38 @@ latexmk -pdf -interaction=nonstopmode -file-line-error main.tex
 
 Output: `paper/main.pdf`.
 
+### Troubleshooting stale build state
+
+If you switch between root and `paper/` builds and hit aux/bibliography path errors, clean and rebuild:
+
+```powershell
+latexmk -C main.tex
+```
+
+Run it once at repository root and once inside `paper/`, then compile again.
+
 ## Authoring Workflow
 
-1. Edit chapter content in [`paper/chapters/examples/core_template.tex`](paper/chapters/examples/core_template.tex) and [`paper/chapters/examples/appendix.tex`](paper/chapters/examples/appendix.tex).
-2. Update bibliography entries in [`paper/refs.bib`](paper/refs.bib).
-3. Add or modify figures, keeping chapter-facing wrappers in `paper/figures/examples/` and reusable diagram fragments in `paper/elements/examples/`.
-4. Rebuild with `latexmk`.
+1. Treat `paper/*/examples/` as reference templates. Create manuscript files in non-`examples/` paths such as `paper/chapters/`, `paper/figures/`, and `paper/elements/`.
+2. Copy from [`paper/chapters/examples/core_template.tex`](paper/chapters/examples/core_template.tex) and [`paper/chapters/examples/appendix.tex`](paper/chapters/examples/appendix.tex) into your active chapter files.
+3. Update includes:
+   - In [`main.tex`](main.tex): use `\include{paper/chapters/<your-file>}`
+   - In [`paper/main.tex`](paper/main.tex): use `\include{chapters/<your-file>}`
+4. Add or modify figures using wrapper files in `paper/figures/` and reusable TikZ primitives in `paper/elements/`.
+5. Update bibliography entries in [`paper/refs.bib`](paper/refs.bib), then rebuild with `latexmk`.
 
 ## Agentic Workspace
 
 This repository is designed to be used as an agentic workspace.
 
-- The [`prompts/`](prompts/) folder contains prompt-engineered task prompts used to drive model behavior for specific repository workflows.
-- Prompts reference files in the [`style/`](style/) folder when relevant, so model outputs can follow project-specific writing and formatting conventions.
+- Prompt assets are grouped by workflow family under [`prompts/`](prompts/):
+  - [`prompts/0 - Meta/`](prompts/0%20-%20Meta/)
+  - [`prompts/1 - Transfer and Maintenence/`](prompts/1%20-%20Transfer%20and%20Maintenence/)
+  - [`prompts/2 - Paper Tasks/`](prompts/2%20-%20Paper%20Tasks/)
+  - [`prompts/3 - Mathematical Tasks/`](prompts/3%20-%20Mathematical%20Tasks/)
 - Use [`style/latex_style_guide.txt`](style/latex_style_guide.txt) as the primary conventions reference for AI and human edits inside `paper/`.
-- These style files are intentionally user-modifiable and are expected to evolve as your preferences and conventions become more defined.
+- `style/references_style_guide.txt` is not present in the current repository state.
+- Style files are user-modifiable and intended to evolve with your authoring preferences.
 
 ## TODO System
 
@@ -85,8 +107,14 @@ The template includes a margin-note TODO mechanism and a generated TODO list.
 
 - Add TODOs with `\todo{Replace placeholder argument with domain-specific theorem.}` or `\todo[Short task caption]`
 - Print collected TODOs with `\listoftodos`
+- For inline TODOs in sentence text, keep `\todo` directly attached to the previous word (no inserted space) to avoid output spacing artifacts.
 
 Implementation lives in [`paper/extra.sty`](paper/extra.sty).
+
+## Cross-Reference Conventions
+
+- Use `\cref{...}` for equation/theorem-style references.
+- Label prefixes used by the template and style guide: `sec:`, `ssec:`, `sssec:`, `eq:`, `def:`, `rem:`, `lem:`, `prop:`, `cor:`, `thm:`, `ex:`, `app:`.
 
 ## Bibliography and References
 
