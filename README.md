@@ -15,7 +15,7 @@ This repository provides a structured LaTeX writing template for theorem-driven 
 - Report output workspace at [`paper/reports/`](paper/reports/) for proof/conjecture task prompts
 - AI-oriented authoring guide in [`style/latex_style_guide.txt`](style/latex_style_guide.txt)
 - Prompt assets for repository workflows in [`prompts/`](prompts/)
-- Repository state ledgers at [`state/current-state.txt`](state/current-state.txt) and [`state/changelog.txt`](state/changelog.txt)
+- Repository state ledgers at [`state/current-state.txt`](state/current-state.txt) and [`state/changelog.txt`](state/changelog.txt) for snapshot-style repository audits
 
 ## Repository Layout
 
@@ -76,7 +76,6 @@ latexmk -pdf -interaction=nonstopmode -file-line-error main.tex
 ```
 
 Output: `main.pdf` at repository root.
-If bibliography content changed, run Option A at least once so `refs.bib` is refreshed through the in-folder build flow.
 
 ### Troubleshooting stale build state
 
@@ -91,6 +90,7 @@ Run it once at repository root and once inside `paper/`, then compile again.
 ## Authoring Workflow
 
 1. Treat `paper/*/examples/` as reference templates. Create manuscript files in non-`examples/` paths such as `paper/chapters/`, `paper/figures/`, and `paper/elements/`.
+   - Per [`style/latex_style_guide.txt`](style/latex_style_guide.txt), do not modify files under any `examples/` subfolder unless explicitly requested.
 2. Copy from [`paper/chapters/examples/core_template.tex`](paper/chapters/examples/core_template.tex) and [`paper/chapters/examples/appendix.tex`](paper/chapters/examples/appendix.tex) into your active chapter files.
 3. Update includes:
    - In [`main.tex`](main.tex): use `\include{paper/chapters/<your-file>}`
@@ -108,7 +108,7 @@ This repository is designed to be used as an agentic workspace.
   - [`prompts/2 - Paper Tasks/`](prompts/2%20-%20Paper%20Tasks/)
   - [`prompts/3 - Mathematical Tasks/`](prompts/3%20-%20Mathematical%20Tasks/)
 - Use [`style/latex_style_guide.txt`](style/latex_style_guide.txt) as the primary conventions reference for AI and human edits inside `paper/`.
-- `style/references_style_guide.txt` is not present in the current repository state.
+- Apply the layering rule from the style guide during manuscript refactors: `chapters -> figures -> elements`.
 - Use [`state/current-state.txt`](state/current-state.txt) and [`state/changelog.txt`](state/changelog.txt) when maintaining repository state snapshots.
 - Style files are user-modifiable and intended to evolve with your authoring preferences.
 
@@ -145,9 +145,10 @@ To move from a plain LaTeX `.zip` project and source code / experiment results i
 1. Unpack your source project into `merge/`.
 2. Run [`prompts/1 - Transfer and Maintenence/prompt_merge_tex.txt`](prompts/1%20-%20Transfer%20and%20Maintenence/prompt_merge_tex.txt) with your AI agent. No extra inputs are required.
 3. After the merge run reports success, validate the transfer result in `paper/` manually (content placement and compile status).
-4. Run [`prompts/2 - Paper Tasks/prompt_detail_level_evaluator.txt`](prompts/2%20-%20Paper%20Tasks/prompt_detail_level_evaluator.txt) to calibrate detail-level policy for the transferred manuscript.
-5. Manually copy any source code into `src/` and any experiment results into `experiments/`. It is useful to keep the directories as is because future prompts will use them, and by default keep experiment results in CSV form. 
-6. Run [`prompts/1 - Transfer and Maintenence/prompt_readme_update.txt`](prompts/1%20-%20Transfer%20and%20Maintenence/prompt_readme_update.txt) and [`prompts/1 - Transfer and Maintenence/prompt_state_update.txt`](prompts/1%20-%20Transfer%20and%20Maintenence/prompt_state_update.txt). In some cases, it is useful to test a pass where `README.md` and `State/`content are cleared first so the agent anchors more strongly to user manuscript content.
+4. Run [`prompts/2 - Paper Tasks/prompt_refine_tex_directory.txt`](prompts/2%20-%20Paper%20Tasks/prompt_refine_tex_directory.txt) to enforce repository-safe manuscript organization under `paper/`.
+5. Run [`prompts/2 - Paper Tasks/prompt_detail_level_evaluator.txt`](prompts/2%20-%20Paper%20Tasks/prompt_detail_level_evaluator.txt) to generate or update `style/detail_level_style_guide.txt` for audience-calibrated exposition depth.
+6. Manually copy source code into `src/` and experiment assets into `experiments/` when the paper depends on them.
+7. Run [`prompts/1 - Transfer and Maintenence/prompt_readme_update.txt`](prompts/1%20-%20Transfer%20and%20Maintenence/prompt_readme_update.txt) and [`prompts/1 - Transfer and Maintenence/prompt_state_update.txt`](prompts/1%20-%20Transfer%20and%20Maintenence/prompt_state_update.txt) to refresh repository documentation and state ledgers.
 
 ## Cleaning Build Artifacts
 

@@ -5,3 +5,19 @@ Summary: Initial state ledger created.
 Run Type: First run
 No prior state existed. This is the first recorded state.
 No changes; first recorded state.
+Timestamp: 2026-04-16 19:43:44 +03:00
+Summary: Repository state ledger refreshed with new prompt files and README changes.
+Run Type: Update run
+Added files:
+- prompts/2 - Paper Tasks/prompt_refine_tex_directory.txt
+- prompts/3 - Mathematical Tasks/prompt_proof_review.txt
+Removed files:
+- None
+Modified files:
+- README.md
+- state/current-state.txt
+- state/changelog.txt
+Notes on major behavioral/workflow changes:
+- Added a LaTeX organization/refinement prompt focused on structure and label/reference hygiene under paper/.
+- Added a proof-review prompt focused on deep review reporting and safe manuscript integration.
+

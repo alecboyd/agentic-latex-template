@@ -1,9 +1,9 @@
 Repository State Record
-Generated: 2026-04-16 15:56:37 +03:00
-Run Type: First recorded state (no prior state/current-state.txt found)
+Generated: 2026-04-16 19:43:35 +03:00
+Run Type: Update run (prior state/current-state.txt found and refreshed)
 Inventory Method: git ls-files -co --exclude-standard | Sort-Object
 Inventory Scope: tracked and untracked files not ignored by .gitignore
-Inventory Count: 51 files
+Inventory Count: 53 files
 
 Inventory (deterministic sorted order)
 1. .gitignore
@@ -49,14 +49,16 @@ Inventory (deterministic sorted order)
 41. prompts/1 - Transfer and Maintenence/prompt_state_update.txt
 42. prompts/2 - Paper Tasks/prompt_detail_level_evaluator.txt
 43. prompts/2 - Paper Tasks/prompt_evaluate_references.txt
-44. prompts/2 - Paper Tasks/prompt_todo_reviewer.txt
-45. prompts/3 - Mathematical Tasks/prompt_conjecture_evaluator.txt
-46. prompts/3 - Mathematical Tasks/prompt_proof_revision.txt
-47. README.md
-48. src/.gitkeep
-49. state/changelog.txt
-50. state/current-state.txt
-51. style/latex_style_guide.txt
+44. prompts/2 - Paper Tasks/prompt_refine_tex_directory.txt
+45. prompts/2 - Paper Tasks/prompt_todo_reviewer.txt
+46. prompts/3 - Mathematical Tasks/prompt_conjecture_evaluator.txt
+47. prompts/3 - Mathematical Tasks/prompt_proof_review.txt
+48. prompts/3 - Mathematical Tasks/prompt_proof_revision.txt
+49. README.md
+50. src/.gitkeep
+51. state/changelog.txt
+52. state/current-state.txt
+53. style/latex_style_guide.txt
 
 Per-File Documentation
 --------------------------------------------------------------------------------
@@ -417,3 +419,15 @@ Type/Category: Style guide text (.txt)
 Purpose: Primary contributor/agent policy for LaTeX edits in this repository.
 Key Contents: Goal and folder-role rules, examples-folder safety rule, math writing conventions, macro policy, cross-referencing prefixes, TODO usage, figure rules, bibliography rules, validation checklist.
 Relationships: Referenced by many prompt files as required policy for manuscript edits.
+--------------------------------------------------------------------------------
+Path: prompts/2 - Paper Tasks/prompt_refine_tex_directory.txt
+Type/Category: Prompt specification text (.txt)
+Purpose: Prompt for repository-safe LaTeX reorganization and consistency cleanup under paper/ without changing manuscript meaning.
+Key Contents: Defines role and primary task, strict no-meaning-change constraints, organizational/refactoring workflow phases, and required validation/reporting behavior.
+Relationships: Targets paper/ structure and references style guidance constraints for safe manuscript organization workflows.
+--------------------------------------------------------------------------------
+Path: prompts/3 - Mathematical Tasks/prompt_proof_review.txt
+Type/Category: Prompt specification text (.txt)
+Purpose: Prompt for deep review of an existing labeled proof with report generation and manuscript inclusion.
+Key Contents: Requires PROPOSITION_LABEL input, defines evidence-grounded review workflow, report-writing requirements, and minimal safe integration/build-verification expectations.
+Relationships: Operates on theorem-like labels in LaTeX sources and writes review artifacts into paper/reports/ for inclusion in manuscript flow.
