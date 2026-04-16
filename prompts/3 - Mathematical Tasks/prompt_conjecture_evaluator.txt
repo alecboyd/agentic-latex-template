@@ -43,6 +43,7 @@ HARD CONSTRAINTS
    - creating/updating one report file under `paper/reports/`
    - inserting one include line directly under the conjecture block in the containing `.tex` file (or the closest deterministic location immediately after that conjecture environment).
 8) Do not edit anything under any `examples/` subfolder.
+9) Before declaring completion, run a LaTeX build for the manuscript and confirm successful PDF generation.
 
 REQUIRED WORKFLOW
 Stage 0: Locate and bind target conjecture
@@ -90,6 +91,10 @@ Stage 5: Report synthesis and file integration
   - `\input{paper/reports/conjecture_eval_<sanitized_label>}`
   - avoid duplicate include insertion if one already exists for this label.
 
+Stage 6: Build verification (mandatory)
+- Run the manuscript LaTeX build command and verify successful PDF generation after edits.
+- If build fails, do not declare completion; either repair and rebuild or report `Blocked` with exact failure details.
+
 VALIDATION CHECKLIST (MUST PASS)
 - `CONJECTURE_LABEL` was uniquely and reliably resolved.
 - Stage ordering and transition logic were followed exactly (1 -> 2 -> 3 -> 4 -> 5 with early jumps only as specified).
@@ -98,7 +103,8 @@ VALIDATION CHECKLIST (MUST PASS)
 - Counterexample claims are fully instantiated and assumption-checked.
 - Proof claims are logically complete relative to active assumptions.
 - Report file exists in `paper/reports/` with section header and trailing `\clearpage`.
-- Conjecture host file includes the report immediately below the target conjecture and no duplicate include was added.
+- Conjecture host file includes the report (with path starting with reports/, not paper/) immediately below the target conjecture and no duplicate include was added.
+- A manuscript PDF build succeeded after the edits.
 
 DELIVERABLE REQUIREMENTS
 After edits, provide:
@@ -106,6 +112,7 @@ After edits, provide:
 2) Final verdict (`Proved`, `Disproved`, or `Open from current analysis`).
 3) Short summary of proof/counterexample outcome.
 4) Any unresolved blockers or ambiguity.
+5) Build verification result (command target and success/failure status).
 
 FAILURE BEHAVIOR
 If blocked:

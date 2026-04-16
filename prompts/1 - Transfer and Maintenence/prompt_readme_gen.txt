@@ -90,8 +90,8 @@ Suggested section set (adapt as needed):
 - Build / Compile
 - Authoring Workflow
 - Style and Prompt System
-- TODO and Cross-Reference Conventions
-- Bibliography
+- LaTeX Conventions
+- Start up Guide (How to go from a LaTeX .zip to full functional agentic repository)
 - Notes / Limitations
 
 Phase 4: Verification pass

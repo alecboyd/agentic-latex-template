@@ -29,6 +29,7 @@ NON-NEGOTIABLE EDIT CONSTRAINTS
 2) Do not rewrite prose, equations, macros, labels, spacing, punctuation, or formatting beyond the minimal insertion required for TODO placement.
 3) Do not modify or remove existing TODOs that are not reviewer TODOs.
 4) Do not add reviewer TODOs without a concrete issue and a clear action.
+5) Before declaring completion, run a LaTeX build for the manuscript and confirm successful PDF generation.
 
 TODO CONTENT RULES
 - Prefix every reviewer TODO with `R:` exactly once.
@@ -73,17 +74,23 @@ Stage 5: Final verification
 - Confirm no non-TODO text changed.
 - Confirm no `examples/` files were edited.
 
+Stage 6: Build verification (mandatory)
+- Run the manuscript LaTeX build command and verify successful PDF generation after TODO insertions.
+- If build fails, do not declare success; either repair build-breaking TODO insertion issues and rebuild, or report blocked with exact failure details.
+
 VALIDATION CHECKLIST (MUST PASS)
 - Every edited line change is an added `\todo{R: ...}` block only.
 - No existing substantive text was modified.
 - Duplicate reviewer TODOs are consolidated where appropriate.
 - Consolidated TODOs include explicit impacted locations.
 - Decisions about detail sensitivity are consistent with `style/detail_level_style_guide.txt`; otherwise clearly conservative.
+- A manuscript PDF build succeeded after the edits.
 
 DELIVERABLE REQUIREMENTS
 Provide:
 1) A concise edit summary listing each file changed.
 2) A short verification statement that only TODO additions were made.
+3) Build verification result (command target and success/failure status).
 
 FAILURE BEHAVIOR
 If blocked (missing files, parse ambiguity, conflicting conventions):

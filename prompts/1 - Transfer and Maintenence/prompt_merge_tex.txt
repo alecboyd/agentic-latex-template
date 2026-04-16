@@ -24,6 +24,14 @@ REPOSITORY-SPECIFIC CONTEXT (MUST FOLLOW)
   - chapters -> figures
   - figures -> elements
   - elements -> no chapter or figure imports
+- Structural refinement rule (mandatory):
+  - Large chapter files must be split by top-level `\section{...}` boundaries into
+    section-scoped files under a chapter subdirectory, with a thin parent index file
+    that only assembles them via `\input`.
+  - Apply the same pattern to large appendices: split by top-level section where feasible,
+    keeping `\appendix` in the parent index file.
+  - Preserve exact section ordering and exact content during the split.
+  - Use stable, descriptive filenames with numeric prefixes to preserve order.
 - Style authority:
   - `style/latex_style_guide.txt`
   - `style/references_style_guide.txt` (if non-empty)
@@ -46,6 +54,7 @@ HARD CONSTRAINTS
 4. You may remove references to example files from `paper/main.tex`.
 5. Do not leave template placeholder content mixed into final manuscript chapters.
 6. If `merge/` is empty or missing, stop immediately and report that as a blocker.
+7. Before declaring completion, you must run a LaTeX build and confirm successful PDF generation for the edited manuscript target.
 
 REQUIRED MULTI-STAGE WORKFLOW
 
@@ -68,6 +77,9 @@ Stage 1: Build a complete model of `merge/`
 Stage 2: Perform the transfer into template structure
 - Place content in the correct destination files under `paper/`.
 - Split content between chapters/appendix coherently while preserving content exactly.
+- Perform structural decomposition of monolithic chapter files:
+  - one top-level section per child file where possible,
+  - parent chapter file becomes an include/index file only.
 - Convert theorem-like content into the proper environment blocks.
 - Preserve labels where possible and normalize new labels to repository prefixes:
   - `sec:`, `ssec:`, `sssec:`, `eq:`, `def:`, `rem:`, `lem:`, `prop:`, `cor:`, `thm:`, `ex:`, `app:`
@@ -77,12 +89,21 @@ Stage 2: Perform the transfer into template structure
   - preserve inline spacing rule for `\todo` usage in sentence flow.
 - Keep bibliography behavior consistent with current template configuration.
 - Remove example includes from `paper/main.tex` when replacing template content.
+- Refactor figure placement to enforce layering:
+  - if a figure environment appears in chapter text, migrate that figure wrapper to `paper/figures`
+    and leave only `\input{figures/...}` in the chapter file.
+  - if figure wrappers contain reusable TikZ blocks, extract reusable drawing primitives into
+    `paper/elements` and let wrappers `\input{elements/...}`.
+  - do not keep large duplicated TikZ blocks inline across chapter files.
 
 Stage 3: Audit transfer completeness and template residue
 - Run a coverage audit: every unit from Stage 1 must exist in `paper/`.
 - Identify and remove leftover template-like scaffolding in active manuscript files.
 - Confirm no source content from `merge/` was dropped, merged incorrectly, or duplicated unintentionally.
 - Confirm that examples folders remain untouched.
+- Confirm structural refinement completeness:
+  - every top-level section from source appears once in the new chapter index decomposition,
+  - rebuilding chapter text by concatenating child section files reproduces source content exactly.
 
 Stage 4: Cleanliness pass on `paper/` codebase
 - Improve maintainability without changing content:
@@ -94,7 +115,7 @@ Stage 4: Cleanliness pass on `paper/` codebase
 
 Stage 5: Final validation and equivalence checks
 - Validate content parity between `merge/` and final `paper/`.
-- Compile and verify no new hard LaTeX errors.
+- Compile and verify successful PDF build for the edited manuscript target (do not finish without a successful build).
 - Check references/citations for breakage.
 - Reconfirm examples files were not deleted or modified.
 - Reconfirm no unwanted template placeholder content remains in active manuscript files.
@@ -112,6 +133,7 @@ FINAL INSTRUCTION
 THINK LONG AND HARD BEFORE EACH STAGE.
 DO NOT CLAIM SUCCESS WITHOUT VERIFIABLE EVIDENCE.
 PRESERVE CONTENT EXACTLY WHILE FITTING THE TEMPLATE CLEANLY.
+DO NOT FINALIZE WITHOUT A VERIFIED SUCCESSFUL PDF BUILD.
 
 ADDITIONAL COMMANDS
 # These commands are lower priority than hard constraints.

@@ -1,14 +1,14 @@
-﻿# PURPOSE:
+# PURPOSE:
 # Use this prompt to generate or update a paper-specific detail-level style guide
 # that defines how much explanation/citation/proof depth is required for statements,
-# based on the inferred target audience of the current paper.
+# based on the target audience of the current paper.
 
 ROLE
 You are a senior mathematical exposition policy agent for LaTeX research repositories.
 
 PRIMARY TASK
 Deeply inspect the current `paper/` directory and create or update `style/detail_level_style_guide.txt`.
-The guide must define a 4-level detail policy (Level 0-3) calibrated to the paper's inferred audience and topic.
+The guide must define a 4-level detail policy (Level 0-3) calibrated to the paper's audience and topic.
 Do not write a guide for a hypothetical external paper; infer criteria from this repository's actual paper content.
 
 THINK LONG AND HARD BEFORE WRITING.
@@ -21,9 +21,12 @@ STYLE-GUIDE REQUIREMENTS (MANDATORY)
 HARD CONSTRAINTS
 1) Edit target is only `style/detail_level_style_guide.txt`.
 2) If the file already exists, update it in place by preserving still-valid guidance and integrating new evidence from `paper/`.
-3) Base all level definitions on observed evidence from `paper/`; do not invent paper content.
+3) Base all level definitions on concrete evidence from `paper/`; do not invent paper content.
 4) Do not treat the example taxonomy in this prompt as fixed truth for all projects.
 5) Keep the guide instructional and enforceable for future writers/reviewers/agents.
+6) The guide must be written as direct policy facts for model use.
+7) Do not include derivation/provenance narration in the guide body.
+8) Do not use guide sections or wording such as "observed evidence", "inferred audience", "we inferred", "calibrated from evidence", or "how this guide was derived".
 
 DETAIL-LEVEL MODEL (MUST IMPLEMENT)
 Use exactly these levels and operational requirements:
@@ -36,8 +39,8 @@ Use exactly these levels and operational requirements:
 - Level 3: Novel results of the current paper.
   Rule: Full proof required in paper text (or explicitly stated reference to proof location within the paper).
 
-AUDIENCE-INFERENCE REQUIREMENTS
-Infer audience sophistication from concrete paper signals, including:
+AUDIENCE REQUIREMENTS
+Determine audience sophistication from concrete paper signals, including:
 - problem domain and notation density
 - prerequisite concepts used without explanation
 - theorem/lemma dependency patterns
@@ -46,8 +49,8 @@ Infer audience sophistication from concrete paper signals, including:
 
 EVIDENCE AND ANTI-HALLUCINATION REQUIREMENTS
 - Every major boundary decision (what belongs to L0 vs L1 vs L2 vs L3) must be supported by concrete `paper/` evidence.
-- Use file-level evidence references in the guide (for example chapter file names and section markers).
-- Separate observed evidence from inference.
+- Use file-level references in the guide (for example chapter file names and section markers), phrased as policy anchors.
+- Keep evidence-vs-inference separation in internal reasoning only; do not surface that separation in the guide text.
 - If evidence is ambiguous, choose conservative thresholds (lower levels) and state the ambiguity explicitly in your review.
 
 REQUIRED WORKFLOW
@@ -56,12 +59,12 @@ Stage 1: Repository scan
 - Build an internal inventory of recurring concept families, theorem types, and citation patterns.
 
 Stage 2: Audience model
-- Infer the likely target audience and baseline prior knowledge.
-- Document concise audience assumptions that justify level boundaries.
+- Determine the likely target audience and baseline prior knowledge.
+- Encode concise audience assumptions as policy facts in the guide.
 
 Stage 3: Level calibration
 - Calibrate Level 0-3 criteria to this paper's domain.
-- Build domain-specific examples for each level derived from observed paper themes.
+- Build domain-specific examples for each level derived from paper themes.
 - Ensure examples are clearly marked as examples, not exhaustive lists.
 
 Stage 4: Author/update guide
@@ -72,6 +75,7 @@ Stage 4: Author/update guide
   - Citation/proof policy matrix
   - Borderline-case arbitration rules
   - Validation checklist for contributors/agents
+- Keep output normative and operational; exclude meta sections about guide construction.
 
 Stage 5: Consistency and QA
 - Ensure compatibility with `style/latex_style_guide.txt`.
@@ -83,7 +87,8 @@ VALIDATION CHECKLIST (MUST PASS)
 - Level 2 explicitly requires specific-source + specific-locator citation behavior.
 - Level 3 explicitly requires full proof expectations.
 - Criteria are paper-calibrated (not copied as domain-agnostic boilerplate).
-- The guide includes evidence-backed rationale and concrete examples.
+- The guide includes concrete examples and file-anchored policy context.
+- The guide contains no derivation/provenance narration.
 - Output exists at `style/detail_level_style_guide.txt` and is internally consistent.
 
 DELIVERABLE REQUIREMENTS
@@ -106,3 +111,4 @@ Write a guide that future agents can apply deterministically when deciding expla
 ADDITIONAL COMMANDS
 # These commands are lower priority than hard constraints.
 # - <SPECIAL_COMMANDS>
+

@@ -53,6 +53,7 @@ PROMPT ENGINEERING REQUIREMENTS
 14) You may review existing prompt files under `prompts/` as internal drafting references, but do not instruct the executing agent to reference exemplar prompts unless the user explicitly requests it.
 15) Write prompts only to the executing agent; do not include user-facing directions such as "fill this out" or "add instructions here."
 16) Remove meta-process filler from engineered prompts unless task-essential (for example: avoid generic "preflight" boilerplate, avoid vague wording like "reuse structural discipline", and avoid template-only scaffolding that does not change task execution quality).
+17) If the engineered prompt edits LaTeX manuscript sources (for example `.tex` files under `paper/`, `main.tex`, `paper/main.tex`, or files that are included by these), it MUST require a successful PDF build verification before completion, and MUST require explicit failure reporting if the build does not succeed.
 
 REQUIRED OUTPUT PROMPT SHAPE
 The engineered prompt should generally include:
@@ -70,6 +71,12 @@ The engineered prompt should generally include:
 - Failure behavior (what to do when blocked)
 - Final Instruction
 - Bottom `ADDITIONAL COMMANDS` section
+
+LATEX-SPECIFIC GUARANTEE (MANDATORY WHEN APPLICABLE)
+- For engineered prompts that perform LaTeX manuscript edits, include all of the following:
+  - a required final build-verification step that runs the repository's LaTeX build command and confirms successful PDF generation before claiming success;
+  - an explicit checklist item stating that PDF build verification passed;
+  - failure behavior that forbids declaring success when the PDF build fails.
 
 FILE OPERATION RULES
 - Write/update the target file with the engineered prompt content.

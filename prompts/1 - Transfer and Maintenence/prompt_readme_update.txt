@@ -15,10 +15,22 @@ Do not rewrite blindly.
 
 MANDATORY STYLE-GUIDE PREFLIGHT
 - Infer relevant style guides from the repository and reference them directly in your working process.
-- At minimum for this repository, read and apply:
-  - `style/latex_style_guide.txt`
-  - `style/references_style_guide.txt` (if present and non-empty)
+- Read and apply all style guides for conventions
 - Use these guides to keep README conventions accurate and aligned with actual authoring workflow.
+
+Suggested section set (adapt as needed):
+- Title
+- What This Repository Is
+- Core Features
+- Repository Layout
+- Requirements
+- Build / Compile
+- Authoring Workflow
+- Style and Prompt System
+- LaTeX Conventions
+- Start up Guide (How to go from a LaTeX .zip to full functional agentic repository)
+- Notes / Limitations
+
 
 CRITICAL REQUIREMENTS
 

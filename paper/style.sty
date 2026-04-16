@@ -27,6 +27,7 @@
 \RequirePackage{amsthm} % NEEDS TO BE LOADED BEFORE CLEVEREF
 \RequirePackage{amsmath} % NEEDS TO BE LOADED BEFORE CLEVEREF
 \RequirePackage[capitalise]{cleveref} % NEEDS TO BE LOADED BEFORE `newtheorem` DEFINITIONS
+\RequirePackage{aliascnt}
 \creflabelformat{equation}{#2\textup{#1}#3} % Removes brackets when referencing equations
 \newcommand{\crefrangeconjunction}{--} % Use en-dash when referencing multiple items in a range
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -70,15 +71,25 @@
 \theoremstyle{customtheorem}
 \newtheorem{theorem}{Theorem}[section]
 \theoremstyle{customtheorem}
-\newtheorem{proposition}[theorem]{Proposition}
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposition}
+\aliascntresetthe{proposition}
 \theoremstyle{customtheorem}
-\newtheorem{lemma}[theorem]{Lemma}
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lemma}
+\aliascntresetthe{lemma}
 \theoremstyle{customtheorem}
-\newtheorem{claim}[theorem]{Claim}
+\newaliascnt{claim}{theorem}
+\newtheorem{claim}[claim]{Claim}
+\aliascntresetthe{claim}
 \theoremstyle{customtheorem}
-\newtheorem{conjecture}[theorem]{Conjecture}
+\newaliascnt{conjecture}{theorem}
+\newtheorem{conjecture}[conjecture]{Conjecture}
+\aliascntresetthe{conjecture}
 \theoremstyle{customtheorem}
-\newtheorem{corollary}[theorem]{Corollary}
+\newaliascnt{corollary}{theorem}
+\newtheorem{corollary}[corollary]{Corollary}
+\aliascntresetthe{corollary}
 
 % Make \cref use capitalized labels by default.
 \crefname{theorem}{Theorem}{Theorems}

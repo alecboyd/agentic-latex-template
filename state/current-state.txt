@@ -1,0 +1,419 @@
+Repository State Record
+Generated: 2026-04-16 15:56:37 +03:00
+Run Type: First recorded state (no prior state/current-state.txt found)
+Inventory Method: git ls-files -co --exclude-standard | Sort-Object
+Inventory Scope: tracked and untracked files not ignored by .gitignore
+Inventory Count: 51 files
+
+Inventory (deterministic sorted order)
+1. .gitignore
+2. experiments/.gitkeep
+3. main.pdf
+4. main.tex
+5. main-blx.bib
+6. merge/.gitkeep
+7. paper/chapters/examples/appendix.tex
+8. paper/chapters/examples/core_template.tex
+9. paper/elements/examples/category_commutative_diagram.tex
+10. paper/elements/examples/graph_directed_layered.tex
+11. paper/elements/examples/graph_undirected_balanced.tex
+12. paper/elements/examples/plot_complex_plane.tex
+13. paper/elements/examples/plot_xy_curves.tex
+14. paper/elements/examples/poset_hasse_template.tex
+15. paper/elements/examples/profile_stage_1.tex
+16. paper/elements/examples/profile_stage_2.tex
+17. paper/elements/examples/profile_stage_3.tex
+18. paper/elements/examples/representation_data_view.tex
+19. paper/elements/examples/representation_graph_view.tex
+20. paper/elements/examples/representation_structured_view.tex
+21. paper/elements/examples/workflow_diagram.tex
+22. paper/extra.sty
+23. paper/figures/examples/figure_category_diagram.tex
+24. paper/figures/examples/figure_graph_gallery.tex
+25. paper/figures/examples/figure_iterative_profiles.tex
+26. paper/figures/examples/figure_poset_example.tex
+27. paper/figures/examples/figure_representation_views.tex
+28. paper/figures/examples/figure_workflow_overview.tex
+29. paper/figures/examples/figure_xy_and_complex_plane.tex
+30. paper/main.pdf
+31. paper/main.tex
+32. paper/main-blx.bib
+33. paper/refs.bib
+34. paper/reports/.gitkeep
+35. paper/style.sty
+36. prompts/0 - Meta/prompt_engineer_prompt.txt
+37. prompts/0 - Meta/prompt_style_guide_gen.txt
+38. prompts/1 - Transfer and Maintenence/prompt_merge_tex.txt
+39. prompts/1 - Transfer and Maintenence/prompt_readme_gen.txt
+40. prompts/1 - Transfer and Maintenence/prompt_readme_update.txt
+41. prompts/1 - Transfer and Maintenence/prompt_state_update.txt
+42. prompts/2 - Paper Tasks/prompt_detail_level_evaluator.txt
+43. prompts/2 - Paper Tasks/prompt_evaluate_references.txt
+44. prompts/2 - Paper Tasks/prompt_todo_reviewer.txt
+45. prompts/3 - Mathematical Tasks/prompt_conjecture_evaluator.txt
+46. prompts/3 - Mathematical Tasks/prompt_proof_revision.txt
+47. README.md
+48. src/.gitkeep
+49. state/changelog.txt
+50. state/current-state.txt
+51. style/latex_style_guide.txt
+
+Per-File Documentation
+--------------------------------------------------------------------------------
+Path: .gitignore
+Type/Category: Text configuration (.gitignore)
+Purpose: Defines ignored LaTeX build artifacts.
+Key Contents: Patterns for aux/log/out/toc/bbl/blg/fls/fdb_latexmk/synctex.gz/run.xml/bcf/nav/snm/vrb.
+Relationships: Controls which generated files are excluded from git-aware inventory.
+
+--------------------------------------------------------------------------------
+Path: experiments/.gitkeep
+Type/Category: Empty placeholder file
+Purpose: Keeps the experiments directory present in git.
+Key Contents: Empty file (0 bytes).
+Relationships: Marks experiments/ as an available workspace directory.
+
+--------------------------------------------------------------------------------
+Path: main.pdf
+Type/Category: Binary/unreadable in this text audit (PDF)
+Purpose: Compiled PDF artifact for the root LaTeX entrypoint.
+Key Contents: Not inspected as text; metadata only.
+Relationships: Output artifact associated with main.tex.
+Metadata: Size 392523 bytes.
+
+--------------------------------------------------------------------------------
+Path: main.tex
+Type/Category: LaTeX source (.tex)
+Purpose: Root compile entrypoint that uses paper/ as input path and includes example chapters.
+Key Contents: Sets \input@path to paper/, loads style and extra packages, configures biblatex with refs.bib, includes paper/chapters/examples/core_template and appendix, prints bibliography.
+Relationships: Depends on paper/style.sty, paper/extra.sty, paper/refs.bib, and included chapter files.
+
+--------------------------------------------------------------------------------
+Path: main-blx.bib
+Type/Category: Generated bibliography control file (.bib)
+Purpose: biblatex auxiliary control data for root build.
+Key Contents: biblatex control comments and @Control{biblatex-control,...} options.
+Relationships: Produced by bibliography tooling for main.tex build flow.
+
+--------------------------------------------------------------------------------
+Path: merge/.gitkeep
+Type/Category: Empty placeholder file
+Purpose: Keeps the merge directory present in git.
+Key Contents: Empty file (0 bytes).
+Relationships: Reserved workspace for manuscript transfer workflows referenced in prompt files.
+
+--------------------------------------------------------------------------------
+Path: paper/chapters/examples/appendix.tex
+Type/Category: LaTeX chapter content (.tex)
+Purpose: Example appendix with technical proof expansion, lemma template, and notation table.
+Key Contents: \appendix, section technical appendix, expanded proof of coercive bound, composition lemma, glossary tabularx table, inline TODO example in proof text.
+Relationships: Included by main entrypoints; references labels defined in core_template.tex and uses macros from style/extra packages.
+
+--------------------------------------------------------------------------------
+Path: paper/chapters/examples/core_template.tex
+Type/Category: LaTeX chapter content (.tex)
+Purpose: Main example chapter demonstrating theorem-driven manuscript structure and workflow.
+Key Contents: Sections on workflow, TODO usage, notation, local estimates, theorem/proof examples, figure inputs, and cross-reference checklist; includes many labeled theorem-like environments and equations.
+Relationships: Included by main entrypoints; inputs wrapper figures from paper/figures/examples/; cited bibliography keys are in paper/refs.bib.
+
+--------------------------------------------------------------------------------
+Path: paper/elements/examples/category_commutative_diagram.tex
+Type/Category: TikZ element source (.tex)
+Purpose: Reusable commutative diagram primitive.
+Key Contents: tikzpicture with matrix of math nodes A/A'/B/B'/C/C', arrows, bent morphisms, and dashed delta edge.
+Relationships: Included by figure_category_diagram.tex wrapper.
+
+--------------------------------------------------------------------------------
+Path: paper/elements/examples/graph_directed_layered.tex
+Type/Category: TikZ element source (.tex)
+Purpose: Reusable directed layered graph primitive.
+Key Contents: State nodes s0-s5 and directed edges including feedback edge labeled alpha.
+Relationships: Included by figure_graph_gallery.tex wrapper.
+
+--------------------------------------------------------------------------------
+Path: paper/elements/examples/graph_undirected_balanced.tex
+Type/Category: TikZ element source (.tex)
+Purpose: Reusable undirected graph primitive.
+Key Contents: Seven vertices (v1-v7), outer cycle, and interior hub connections.
+Relationships: Included by figure_graph_gallery.tex wrapper.
+
+--------------------------------------------------------------------------------
+Path: paper/elements/examples/plot_complex_plane.tex
+Type/Category: TikZ element source (.tex)
+Purpose: Complex-plane plotting primitive.
+Key Contents: Re/Im axes, modulus circles, polar-angle annotation, roots of unity markers, and highlighted point z0.
+Relationships: Included by figure_xy_and_complex_plane.tex wrapper.
+
+--------------------------------------------------------------------------------
+Path: paper/elements/examples/plot_xy_curves.tex
+Type/Category: TikZ element source (.tex)
+Purpose: Multi-curve x-y plotting primitive.
+Key Contents: Grid, shaded transition region, three styled function curves, annotations, and inline legend lines.
+Relationships: Included by figure_xy_and_complex_plane.tex wrapper.
+
+--------------------------------------------------------------------------------
+Path: paper/elements/examples/poset_hasse_template.tex
+Type/Category: TikZ element source (.tex)
+Purpose: Reusable Hasse diagram primitive.
+Key Contents: Nodes hat0, a-e, hat1 and comparability edges.
+Relationships: Included by figure_poset_example.tex wrapper.
+
+--------------------------------------------------------------------------------
+Path: paper/elements/examples/profile_stage_1.tex
+Type/Category: TikZ element source (.tex)
+Purpose: Stage-1 profile mini-plot primitive.
+Key Contents: Axes, blue smooth curve, and two marked points.
+Relationships: Included by figure_iterative_profiles.tex wrapper.
+
+--------------------------------------------------------------------------------
+Path: paper/elements/examples/profile_stage_2.tex
+Type/Category: TikZ element source (.tex)
+Purpose: Stage-2 profile mini-plot primitive.
+Key Contents: Axes, forest-green smooth curve, and two marked points.
+Relationships: Included by figure_iterative_profiles.tex wrapper.
+
+--------------------------------------------------------------------------------
+Path: paper/elements/examples/profile_stage_3.tex
+Type/Category: TikZ element source (.tex)
+Purpose: Stage-3 profile mini-plot primitive.
+Key Contents: Axes, brick-red smooth curve, and two marked points.
+Relationships: Included by figure_iterative_profiles.tex wrapper.
+
+--------------------------------------------------------------------------------
+Path: paper/elements/examples/representation_data_view.tex
+Type/Category: TikZ element source (.tex)
+Purpose: Data-view representation primitive.
+Key Contents: Axes and purple scatter points.
+Relationships: Included by figure_representation_views.tex wrapper.
+
+--------------------------------------------------------------------------------
+Path: paper/elements/examples/representation_graph_view.tex
+Type/Category: TikZ element source (.tex)
+Purpose: Graph-view representation primitive.
+Key Contents: Four points and connecting edges for a small graph.
+Relationships: Included by figure_representation_views.tex wrapper.
+
+--------------------------------------------------------------------------------
+Path: paper/elements/examples/representation_structured_view.tex
+Type/Category: TikZ element source (.tex)
+Purpose: Structured-view representation primitive.
+Key Contents: Axes and blue point pattern.
+Relationships: Included by figure_representation_views.tex wrapper.
+
+--------------------------------------------------------------------------------
+Path: paper/elements/examples/workflow_diagram.tex
+Type/Category: TikZ element source (.tex)
+Purpose: Workflow block-diagram primitive.
+Key Contents: Nodes Assumptions, Local Lemmas, Main Theorem, Appendix Details with directed arrows.
+Relationships: Included by figure_workflow_overview.tex wrapper.
+
+--------------------------------------------------------------------------------
+Path: paper/extra.sty
+Type/Category: LaTeX style package (.sty)
+Purpose: Provides reusable helper macros, TikZ setup, and TODO/list-of-todos system.
+Key Contents: tikz libraries/styles; macros \overeq, \aovereq, \setof, number-set shortcuts, \nxrightarrow; TODO machinery with \todo and \listoftodos using aux writes and hyperlinks.
+Relationships: Loaded by both main.tex and paper/main.tex; supports commands used in chapter/example files.
+
+--------------------------------------------------------------------------------
+Path: paper/figures/examples/figure_category_diagram.tex
+Type/Category: Figure wrapper (.tex)
+Purpose: Wraps category commutative diagram element with explanatory caption text.
+Key Contents: center block, resizebox input of elements/examples/category_commutative_diagram, relation line and italic caption.
+Relationships: Inputs paper/elements/examples/category_commutative_diagram.tex; input from core_template.tex.
+
+--------------------------------------------------------------------------------
+Path: paper/figures/examples/figure_graph_gallery.tex
+Type/Category: Figure wrapper (.tex)
+Purpose: Presents undirected and directed graph templates in one gallery.
+Key Contents: Two resized inputs (graph_undirected_balanced and graph_directed_layered) with short captions and closing italic description.
+Relationships: Inputs two graph element files; input from core_template.tex.
+
+--------------------------------------------------------------------------------
+Path: paper/figures/examples/figure_iterative_profiles.tex
+Type/Category: Figure wrapper (.tex)
+Purpose: Three-panel profile progression figure.
+Key Contents: Three minipages for profile_stage_1/2/3 inputs and panel labels.
+Relationships: Inputs three profile element files; input from core_template.tex.
+
+--------------------------------------------------------------------------------
+Path: paper/figures/examples/figure_poset_example.tex
+Type/Category: Figure wrapper (.tex)
+Purpose: Wraps optional Hasse diagram example.
+Key Contents: Resizebox around poset_hasse_template input with italic caption.
+Relationships: Inputs poset_hasse_template element; input from core_template.tex.
+
+--------------------------------------------------------------------------------
+Path: paper/figures/examples/figure_representation_views.tex
+Type/Category: Figure wrapper (.tex)
+Purpose: Side-by-side representation view comparison.
+Key Contents: Three minipages for data, combinatorial, and structured view inputs and labels.
+Relationships: Inputs three representation element files; not currently input by core_template.tex.
+
+--------------------------------------------------------------------------------
+Path: paper/figures/examples/figure_workflow_overview.tex
+Type/Category: Figure wrapper (.tex)
+Purpose: Wraps workflow diagram with caption text.
+Key Contents: Centered input of workflow_diagram and italic workflow description.
+Relationships: Inputs workflow_diagram element; input from core_template.tex.
+
+--------------------------------------------------------------------------------
+Path: paper/figures/examples/figure_xy_and_complex_plane.tex
+Type/Category: Figure wrapper (.tex)
+Purpose: Combines x-y curve plot and complex-plane plot examples.
+Key Contents: Two resized inputs (plot_xy_curves and plot_complex_plane) with descriptive captions.
+Relationships: Inputs two plot element files; input from core_template.tex.
+
+--------------------------------------------------------------------------------
+Path: paper/main.pdf
+Type/Category: Binary/unreadable in this text audit (PDF)
+Purpose: Compiled PDF artifact for paper/main.tex entrypoint.
+Key Contents: Not inspected as text; metadata only.
+Relationships: Output artifact associated with paper/main.tex.
+Metadata: Size 396357 bytes.
+
+--------------------------------------------------------------------------------
+Path: paper/main.tex
+Type/Category: LaTeX source (.tex)
+Purpose: In-folder compile entrypoint for the paper subtree.
+Key Contents: Loads style/extra packages, biblatex with refs.bib, includes chapters/examples/core_template and appendix, prints bibliography.
+Relationships: Uses paper/style.sty, paper/extra.sty, paper/refs.bib, and chapter example files.
+
+--------------------------------------------------------------------------------
+Path: paper/main-blx.bib
+Type/Category: Generated bibliography control file (.bib)
+Purpose: biblatex auxiliary control data for paper/main.tex build.
+Key Contents: biblatex control comments and @Control{biblatex-control,...} options.
+Relationships: Produced by bibliography tooling for paper/main.tex build flow.
+
+--------------------------------------------------------------------------------
+Path: paper/refs.bib
+Type/Category: Bibliography database (.bib)
+Purpose: Source bibliography entries used by the template document.
+Key Contents: Four @book entries (Rudin 1976, Evans 2010, Tao 2011, Knuth 1984).
+Relationships: Loaded by both main entrypoints via biblatex; cited from core_template.tex.
+
+--------------------------------------------------------------------------------
+Path: paper/reports/.gitkeep
+Type/Category: Empty placeholder file
+Purpose: Keeps paper/reports directory present in git for generated analysis reports.
+Key Contents: Empty file (0 bytes).
+Relationships: Target directory referenced by mathematical prompt workflows.
+
+--------------------------------------------------------------------------------
+Path: paper/style.sty
+Type/Category: LaTeX style package (.sty)
+Purpose: Defines theorem environments, hyperlink/reference formatting, abstract formatting, and proof style conventions.
+Key Contents: hyperref colors, cleveref setup, mdframed theorem-like boxes for definition/example/remark, theorem/proposition/lemma/claim/conjecture/corollary environments, proof styling and qed symbol, enumitem/changepage helpers, macro replacements like \emptyset.
+Relationships: Loaded by both main entrypoints; provides theorem/reference behavior used in chapter files.
+
+--------------------------------------------------------------------------------
+Path: prompts/0 - Meta/prompt_engineer_prompt.txt
+Type/Category: Prompt specification text (.txt)
+Purpose: Meta-prompt for engineering and writing new prompt files under prompts/.
+Key Contents: Required INPUTS block, path-safety rules, prompt-engineering requirements, output shape, LaTeX build-verification mandate when applicable, completion response format.
+Relationships: Guides prompt-authoring workflow inside prompts/ hierarchy.
+
+--------------------------------------------------------------------------------
+Path: prompts/0 - Meta/prompt_style_guide_gen.txt
+Type/Category: Prompt specification text (.txt)
+Purpose: Prompt for creating new style guide files in style/.
+Key Contents: Required inputs STYLE_GUIDE_NAME and SOURCE_STYLE_GUIDE_DESCRIPTION, staged workflow for reference analysis/design/authoring/QA, required guide shape, output and completion rules.
+Relationships: References style/latex_style_guide.txt and optional style/references_style_guide.txt.
+
+--------------------------------------------------------------------------------
+Path: prompts/1 - Transfer and Maintenence/prompt_merge_tex.txt
+Type/Category: Prompt specification text (.txt)
+Purpose: Prompt for migrating manuscript content from merge/ into paper/ with strict preservation and validation.
+Key Contents: Repository architecture/layering rules, mandatory preflight on style guides, five-stage migration/audit workflow, structural split requirements, compile verification requirement, structured report output format.
+Relationships: Refers to merge/, paper/, style/latex_style_guide.txt, and optional style/references_style_guide.txt.
+
+--------------------------------------------------------------------------------
+Path: prompts/1 - Transfer and Maintenence/prompt_readme_gen.txt
+Type/Category: Prompt specification text (.txt)
+Purpose: Prompt for generating a repository README from evidence.
+Key Contents: Deep inspection requirements, no-hallucination constraints, required workflow phases, suggested README sections, output/verification rules.
+Relationships: References style guides and repository structure including paper/, prompts/, style/.
+
+--------------------------------------------------------------------------------
+Path: prompts/1 - Transfer and Maintenence/prompt_readme_update.txt
+Type/Category: Prompt specification text (.txt)
+Purpose: Prompt for updating existing README with minimal churn and factual reconciliation.
+Key Contents: Keep/fix/remove/add reconciliation model, no-hallucination rules, phased update workflow, style and output constraints.
+Relationships: References style guides and repository architecture used in README maintenance.
+
+--------------------------------------------------------------------------------
+Path: prompts/1 - Transfer and Maintenence/prompt_state_update.txt
+Type/Category: Prompt specification text (.txt)
+Purpose: Prompt for maintaining state/current-state.txt and state/changelog.txt.
+Key Contents: Canonical .txt requirement, complete git-aware inventory requirement, evidence-only documentation, first-run/update branching logic, required changelog format, validation checklist.
+Relationships: Directly governs state ledger files under state/.
+
+--------------------------------------------------------------------------------
+Path: prompts/2 - Paper Tasks/prompt_detail_level_evaluator.txt
+Type/Category: Prompt specification text (.txt)
+Purpose: Prompt for creating/updating style/detail_level_style_guide.txt calibrated to paper content.
+Key Contents: Required four-level detail model (Level 0-3), audience calibration workflow, constraints on output style, validation checklist, failure behavior.
+Relationships: References paper/ content and style/latex_style_guide.txt plus style/detail_level_style_guide.txt.
+
+--------------------------------------------------------------------------------
+Path: prompts/2 - Paper Tasks/prompt_evaluate_references.txt
+Type/Category: Prompt specification text (.txt)
+Purpose: Prompt for auditing bibliography accuracy and citation usage inside paper/.
+Key Contents: Scope limited to paper/, scoring rubric 0-3, mandatory internet verification requirement, staged audit workflow, reporting schema, page-number rule using printed page labels.
+Relationships: Uses paper/refs.bib and citation usage in paper/*.tex files.
+
+--------------------------------------------------------------------------------
+Path: prompts/2 - Paper Tasks/prompt_todo_reviewer.txt
+Type/Category: Prompt specification text (.txt)
+Purpose: Prompt for reviewer TODO insertion in non-example chapter files.
+Key Contents: Required TODO format \todo{R: ...}, strict edit constraints, deduplication/consolidation rules, staged workflow, mandatory build verification.
+Relationships: References paper/chapters/, style/latex_style_guide.txt, and style/detail_level_style_guide.txt.
+
+--------------------------------------------------------------------------------
+Path: prompts/3 - Mathematical Tasks/prompt_conjecture_evaluator.txt
+Type/Category: Prompt specification text (.txt)
+Purpose: Prompt for conjecture evaluation and integration of report files under paper/reports/.
+Key Contents: Required input CONJECTURE_LABEL, staged proof/counterexample workflow with deep stages, strict evidence/assumption rules, report file/output requirements, include insertion and build verification rules.
+Relationships: Targets conjecture labels in LaTeX files and writes reports to paper/reports/.
+
+--------------------------------------------------------------------------------
+Path: prompts/3 - Mathematical Tasks/prompt_proof_revision.txt
+Type/Category: Prompt specification text (.txt)
+Purpose: Prompt for lightweight proof revision reports under changed context.
+Key Contents: Required inputs PROOF_LABEL and CONTEXT_CHANGES, constrained edit scope, staged revision and deep correctness pass, blocked/outcome handling, report/include/build verification requirements.
+Relationships: Targets theorem-like labels in LaTeX files and writes reports to paper/reports/.
+
+--------------------------------------------------------------------------------
+Path: README.md
+Type/Category: Markdown documentation (.md)
+Purpose: Repository overview and usage guide for the agentic LaTeX template.
+Key Contents: Project features, folder layout, build commands, authoring workflow, prompt/style system notes, TODO and cross-reference conventions, bibliography and cleaning notes.
+Relationships: References main.tex, paper/main.tex, style/latex_style_guide.txt, prompt directories, and paper assets.
+
+--------------------------------------------------------------------------------
+Path: src/.gitkeep
+Type/Category: Empty placeholder file
+Purpose: Keeps src directory present in git.
+Key Contents: Empty file (0 bytes).
+Relationships: Marks src/ as an available workspace directory.
+
+--------------------------------------------------------------------------------
+Path: state/changelog.txt
+Type/Category: State ledger text (.txt)
+Purpose: Append-only changelog for repository state runs.
+Key Contents: Header plus first-run entry with timestamp, summary, run type, and "No changes; first recorded state."
+Relationships: Companion record to state/current-state.txt; governed by prompts/1 - Transfer and Maintenence/prompt_state_update.txt.
+
+--------------------------------------------------------------------------------
+Path: state/current-state.txt
+Type/Category: State ledger text (.txt)
+Purpose: Current authoritative inventory and documentation of non-ignored repository files.
+Key Contents: Generated timestamp, deterministic inventory, and per-file evidence-based documentation entries.
+Relationships: Primary state snapshot paired with state/changelog.txt; format requirements defined in prompts/1 - Transfer and Maintenence/prompt_state_update.txt.
+
+--------------------------------------------------------------------------------
+Path: style/latex_style_guide.txt
+Type/Category: Style guide text (.txt)
+Purpose: Primary contributor/agent policy for LaTeX edits in this repository.
+Key Contents: Goal and folder-role rules, examples-folder safety rule, math writing conventions, macro policy, cross-referencing prefixes, TODO usage, figure rules, bibliography rules, validation checklist.
+Relationships: Referenced by many prompt files as required policy for manuscript edits.
