@@ -13,3 +13,7 @@
 *.nav
 *.snm
 *.vrb
+
+# Local reference PDFs may include private or licensed copies.
+paper/references/*.pdf
+!paper/references/README.md

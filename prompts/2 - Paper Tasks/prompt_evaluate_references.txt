@@ -17,6 +17,7 @@ SCOPE BOUNDARY (HARD)
 - Analyze only files inside `paper/`.
 - Do not infer citations from README, prompts, notes, or files outside `paper/`.
 - Treat `paper/refs.bib` as the bibliography source of truth.
+- Treat local PDFs in `paper/references/` and BibTeX `file` fields as valid primary access paths for verification.
 
 FOUR-LEVEL SCORING RUBRIC (0-3)
 Use this exact rubric for each BibTeX entry key:
@@ -53,6 +54,7 @@ Stage 3: Source accessibility and metadata check
 - Confirm the key source identity matches the BibTeX record (title/author/year/venue).
 - Mark access outcome clearly: accessible, paywalled-but-metadata-confirmed, inaccessible, or ambiguous.
 - For non-accessible sources, explicitly record whether basic metadata alignment is sufficient for score 1 or whether missing/unreliable metadata triggers score 0 as hallucinated/fabricated.
+- If online access is blocked but a local PDF is available via `paper/references/` or a BibTeX `file` field, treat it as accessible for claim verification and record the local path used.
 
 Stage 4: Claim-level verification
 - For each cited source, test whether paper claims align with the source.
@@ -107,6 +109,7 @@ VALIDATION CHECKLIST (MUST PASS)
 - Every score has evidence-backed reasoning.
 - Every page-specific check uses printed/labeled page numbers, not metadata index pages.
 - Every internet-verified claim includes at least one source URL or a clear access-failure note.
+- Every locally verified claim includes the exact local file path used.
 
 FAILURE BEHAVIOR
 If blocked, do not stop silently.

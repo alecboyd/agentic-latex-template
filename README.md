@@ -12,6 +12,7 @@ This repository provides a structured LaTeX writing template for theorem-driven 
 - [`paper/extra.sty`](paper/extra.sty): TikZ helpers, math utility commands, TODO/list-of-todos system
 - Reusable figure architecture via wrappers in `paper/figures/examples/` and drawing primitives in `paper/elements/examples/`
 - Bibliography setup with `biblatex` (`backend=bibtex`) using [`paper/refs.bib`](paper/refs.bib)
+- Optional local-reference PDF workflow via `file` fields in [`paper/refs.bib`](paper/refs.bib) and files in [`paper/references/`](paper/references/)
 - Report output workspace at [`paper/reports/`](paper/reports/) for proof/conjecture task prompts
 - AI-oriented authoring guide in [`style/latex_style_guide.txt`](style/latex_style_guide.txt)
 - Prompt assets for repository workflows in [`prompts/`](prompts/)
@@ -28,6 +29,8 @@ This repository provides a structured LaTeX writing template for theorem-driven 
 |   |-- style.sty
 |   |-- extra.sty
 |   |-- refs.bib
+|   |-- references/
+|   |   `-- README.md         # Guidance for local reference PDFs
 |   |-- reports/
 |   |   `-- .gitkeep
 |   |-- chapters/
@@ -116,12 +119,15 @@ This repository is designed to be used as an agentic workspace.
 
 By default, keep files inside any `examples/` subfolder unchanged and use them as templates.
 
-### TODO System
+### Draft Marker System
 
-The template includes a margin-note TODO mechanism and a generated TODO list.
+The template includes margin-note TODO and preliminary marker mechanisms with generated lists.
 
 - Add TODOs with `\todo{Replace placeholder argument with domain-specific theorem.}` or `\todo[Short task caption]`
 - Print collected TODOs with `\listoftodos`
+- Add preliminary markers for external references with `\prelim{Confirm notation convention against source.}{\cite{rudin1976principles}}`
+- Print collected preliminary markers with `\listofprelims`
+- Hide draft markers globally with `\hidetodos` and `\hideprelims`; restore them with `\showtodos` and `\showprelims`
 - For inline TODOs in sentence text, keep `\todo` directly attached to the previous word (no inserted space) to avoid output spacing artifacts.
 
 Implementation lives in [`paper/extra.sty`](paper/extra.sty).
@@ -136,7 +142,111 @@ Implementation lives in [`paper/extra.sty`](paper/extra.sty).
 - Citation package: `biblatex` with numeric style
 - Backend: `bibtex`
 - Bibliography file: [`paper/refs.bib`](paper/refs.bib)
+- Optional local files: `file = {references/<filename>.pdf}` entries in `paper/refs.bib` with files under `paper/references/`
+- Recommended default: add local copies when source access is restricted (for example paywalled or unstable links), and keep `paper/references/README.md` aligned with your policy to avoid unnecessary context bloat in agent workflows
 - Cross-references use `cleveref` and custom theorem/equation label formatting from [`paper/style.sty`](paper/style.sty)
+
+### Local PDF Link Behavior (Exact Reproduction Steps)
+
+This is the full setup used in this repo to make bibliography `Local copy` links open in the VS Code LaTeX Workshop viewer (not Chrome).
+
+1. Put local PDFs in `paper/references/`.
+2. Add a BibTeX `file` field per entry in [`paper/refs.bib`](paper/refs.bib), for example:
+
+```bibtex
+@book{tao2011book,
+  author = {Tao, Terence},
+  title = {An Introduction to Measure Theory},
+  year = {2011},
+  publisher = {American Mathematical Society},
+  file = {references/gsm-126-tao5-measure-book.pdf}
+}
+```
+
+3. Confirm local-link macros exist in [`paper/extra.sty`](paper/extra.sty):
+   - `\showlocalreferences`, `\hidelocalreferences`
+   - `\setlocalreferenceuriprefix{...}`
+   - bibliography finentry hook that prints `[Local copy]` from `file` field
+4. In [`paper/main.tex`](paper/main.tex), enable links and set your absolute machine path prefix:
+
+```tex
+\showlocalreferences
+\setlocalreferenceuriprefix{https://latex-workshop.local/open-reference?path=c:/Users/<YOUR_USER>/<PATH_TO_REPO>/paper/}
+```
+
+5. Patch local LaTeX Workshop extension code (machine-local, version-specific).
+   - Extension used here: `james-yu.latex-workshop-10.14.1`
+   - File A: `C:\Users\<YOU>\.vscode\extensions\james-yu.latex-workshop-10.14.1\out\src\preview\viewer.js`
+   - Replace `case 'external_link'` so `https://latex-workshop.local` routes to local file open in viewer:
+
+```js
+case 'external_link': {
+    const uri = vscode.Uri.parse(data.url);
+    const openInVsCodeViewer = (filePath) => {
+        const normalized = filePath.replace(/^\/+/, '').replace(/\//g, '\\');
+        const targetUri = vscode.Uri.file(normalized);
+        void vscode.commands.executeCommand('vscode.openWith', targetUri, 'latex-workshop-pdf-hook');
+    };
+    if (uri.scheme === 'https' && uri.authority.toLowerCase() === 'latex-workshop.local') {
+        const query = new URLSearchParams(uri.query);
+        const filePath = query.get('path');
+        if (filePath) {
+            openInVsCodeViewer(filePath);
+            break;
+        }
+    }
+    if (uri.scheme === 'vscode' && uri.authority === 'file') {
+        const filePath = decodeURIComponent(uri.path.replace(/^\//, ''));
+        openInVsCodeViewer(filePath);
+    }
+    else if (uri.scheme === 'file') {
+        const localPath = decodeURIComponent(uri.fsPath || uri.path);
+        openInVsCodeViewer(localPath);
+    }
+    else if (['http', 'https'].includes(uri.scheme)) {
+        void vscode.env.openExternal(uri);
+    }
+    else {
+        void vscode.window.showInputBox({
+            prompt: 'For security reasons, please copy and visit this link manually.',
+            value: data.url
+        });
+    }
+    break;
+}
+```
+
+6. Patch local LaTeX Workshop viewer click interception.
+   - File B: `C:\Users\<YOU>\.vscode\extensions\james-yu.latex-workshop-10.14.1\out\viewer\components\gui.js`
+   - Ensure external-link interception is active in all modes and uses `closest('a')`:
+
+```js
+document.addEventListener('click', (e) => {
+    const rawTarget = e.target;
+    const anchor = rawTarget instanceof Element ? rawTarget.closest('a') : null;
+    if (anchor && !anchor.href.startsWith(window.location.href) && !anchor.href.startsWith('blob:')) {
+        void send({ type: 'external_link', url: anchor.href });
+        e.preventDefault();
+        e.stopPropagation();
+    }
+}, true);
+```
+
+7. Reload VS Code and verify:
+   - Run `Developer: Reload Window`
+   - Close/reopen LaTeX Workshop PDF preview
+   - Click a `Local copy` link in bibliography
+   - Expected: PDF opens in VS Code viewer tab; no `latex-workshop.local` browser tab, no DNS error
+
+8. Debug checks if it fails:
+   - Confirm active extension version path under `C:\Users\<YOU>\.vscode\extensions\`.
+   - Confirm [`paper/main.tex`](paper/main.tex) URI prefix points to your actual repo path.
+   - Confirm clicked entry has a valid `file = {references/...pdf}` field and PDF exists.
+   - Re-run `Developer: Reload Window` after every extension-file edit.
+
+Important:
+- These extension patches are not stored in this repo and will not transfer via `git push`.
+- Extension updates can overwrite patched files; reapply patches after updates.
 
 ## Start-up Guide
 

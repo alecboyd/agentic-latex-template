@@ -70,18 +70,38 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TODO SYSTEM
+% TODO AND PRELIMINARY MARKER SYSTEM
 \RequirePackage{xparse}
 \RequirePackage{marginnote}
 
 \makeatletter
 
 \newcounter{todocounter}
+\newcounter{prelimcounter}
 \newcommand{\alltodos}{}
+\newcommand{\allprelims}{}
+
+\newif\iftodosvisible
+\todosvisibletrue
+\newif\ifprelimsvisible
+\prelimsvisibletrue
+
+\newcommand{\hidetodos}{\todosvisiblefalse}
+\newcommand{\showtodos}{\todosvisibletrue}
+\newcommand{\hideprelims}{\prelimsvisiblefalse}
+\newcommand{\showprelims}{\prelimsvisibletrue}
+\newcommand{\previewtoggle}{%
+  \hidetodos
+  \hideprelims
+  \hidelocalreferences
+}
 
 % This gets executed from the .aux file on the next run.
 \newcommand{\todoauxentry}[2]{%
   \g@addto@macro\alltodos{\todoListRow{#1}{#2}}%
+}
+\newcommand{\prelimauxentry}[3]{%
+  \g@addto@macro\allprelims{\prelimListRow{#1}{#2}{#3}}%
 }
 
 % Inline format.
@@ -89,7 +109,14 @@
   \ifinner
     {\footnotesize\textbf{TODO: #1} #2}%
   \else
-    \marginpar{\raggedright\footnotesize\textbf{TODO: #1}\\#2}%
+    \normalmarginpar\marginpar{\raggedright\footnotesize\textbf{TODO: #1}\\#2}%
+  \fi
+}
+\newcommand{\prelimformat}[3]{%
+  \ifinner
+    {\footnotesize\textbf{PRELIM: #1} #2 (#3)}%
+  \else
+    \reversemarginpar\marginpar{\raggedright\footnotesize\textbf{PRELIM: #1}\\#2\\\emph{#3}}%
   \fi
 }
 
@@ -97,31 +124,64 @@
 \newcommand{\todoListRow}[2]{%
   \hypertarget{todolist.#1}{}\hyperlink{todo.#1}{\textbf{#1}} & #2\\%
 }
+\newcommand{\prelimListRow}[3]{%
+  \hypertarget{prelimlist.#1}{}\hyperlink{prelim.#1}{\textbf{#1}} & #2 & #3\\%
+}
 
 % Print the list wherever desired.
 \newcommand{\listoftodos}{%
-  \section*{Todo List}
-  \begin{tabularx}{\textwidth}{@{}p{1.8cm}X@{}}
-    \toprule
-    \textbf{\#} & \textbf{Caption} \\
-    \midrule
-    \ifx\alltodos\@empty
-      \multicolumn{2}{@{}l@{}}{\textit{No todos found.}}\\
-    \else
-      \alltodos
-    \fi
-    \bottomrule
-  \end{tabularx}
+  \iftodosvisible
+    \section*{Todo List}
+    \begin{tabularx}{\textwidth}{@{}p{1.8cm}X@{}}
+      \toprule
+      \textbf{\#} & \textbf{Caption} \\
+      \midrule
+      \ifx\alltodos\@empty
+        \multicolumn{2}{@{}l@{}}{\textit{No todos found.}}\\
+      \else
+        \alltodos
+      \fi
+      \bottomrule
+    \end{tabularx}
+  \fi
+}
+\newcommand{\listofprelims}{%
+  \ifprelimsvisible
+    \section*{Preliminary Marker List}
+    \begin{tabularx}{\textwidth}{@{}p{1.2cm}XX@{}}
+      \toprule
+      \textbf{\#} & \textbf{Description} & \textbf{Reference} \\
+      \midrule
+      \ifx\allprelims\@empty
+        \multicolumn{3}{@{}l@{}}{\textit{No preliminary markers found.}}\\
+      \else
+        \allprelims
+      \fi
+      \bottomrule
+    \end{tabularx}
+  \fi
 }
 
 % Internal command.
 \newcommand{\todo@do}[1]{%
-  \refstepcounter{todocounter}%
-  \hypertarget{todo.\thetodocounter}{}%
-  \protected@write\@auxout{}{%
-    \string\todoauxentry{\thetodocounter}{#1}%
-  }%
-  \todoformat{\hyperlink{todolist.\thetodocounter}{\thetodocounter}}{#1}%
+  \iftodosvisible
+    \refstepcounter{todocounter}%
+    \hypertarget{todo.\thetodocounter}{}%
+    \protected@write\@auxout{}{%
+      \string\todoauxentry{\thetodocounter}{#1}%
+    }%
+    \todoformat{\hyperlink{todolist.\thetodocounter}{\thetodocounter}}{#1}%
+  \fi
+}
+\newcommand{\prelim@do}[2]{%
+  \ifprelimsvisible
+    \refstepcounter{prelimcounter}%
+    \hypertarget{prelim.\theprelimcounter}{}%
+    \protected@write\@auxout{}{%
+      \string\prelimauxentry{\theprelimcounter}{#1}{#2}%
+    }%
+    \prelimformat{\hyperlink{prelimlist.\theprelimcounter}{\theprelimcounter}}{#1}{#2}%
+  \fi
 }
 
 % Allow both \todo{...} and \todo[...].
@@ -135,5 +195,44 @@
     {\todo@do{#1}}%
 }
 
+\NewDocumentCommand{\prelim}{ m m }{%
+  \prelim@do{#1}{#2}%
+}
+
+\makeatother
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LOCAL REFERENCE PDF LINKS
+%
+% Add a local PDF path to a bibliography entry with:
+%   file = {references/citation-key.pdf}
+%
+% Local links are hidden by default so final/shared PDFs do not expose local
+% document paths. Use \showlocalreferences in the manuscript preamble to print
+% them in the bibliography, or \hidelocalreferences to hide them again.
+\newif\iflocalreferencesvisible
+\localreferencesvisiblefalse
+
+\newcommand{\hidelocalreferences}{\localreferencesvisiblefalse}
+\newcommand{\showlocalreferences}{\localreferencesvisibletrue}
+\newcommand{\localreferenceuriprefix}{run:./}
+\newcommand{\setlocalreferenceuriprefix}[1]{%
+  \renewcommand{\localreferenceuriprefix}{#1}%
+}
+
+\makeatletter
+\AtBeginDocument{%
+  \@ifpackageloaded{biblatex}{%
+    \renewbibmacro*{finentry}{%
+      \iflocalreferencesvisible
+        \iffieldundef{file}
+          {}
+          {\setunit{\addspace}\printtext{\mkbibbrackets{\href{\localreferenceuriprefix\thefield{file}}{Local copy}}}}%
+      \fi
+      \finentry
+    }%
+  }{}%
+}
 \makeatother
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

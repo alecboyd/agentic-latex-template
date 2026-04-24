@@ -84,19 +84,26 @@ Reference quality rules:
 - write labels with dashes between words, example "sec:measure-theory"
 
 ==================================================================
-6) TODO USAGE RULES
+6) DRAFT MARKER USAGE RULES
 ==================================================================
 Supported forms:
 - \todo{...}
 - \listoftodos
+- \prelim{description}{reference}
+- \listofprelims
+- \hidetodos / \showtodos
+- \hideprelims / \showprelims
 
 Authoring rules:
 - keep TODO text actionable and concise
 - use TODOs for editing tasks, not long explanations
 - use \listoftodos when a consolidated task list is needed
+- use preliminary markers for external background facts, source checks, or bibliographic references that should remain visible during drafting
+- use \listofprelims when a consolidated preliminary marker list is needed
+- use hide toggles in the preamble when draft markers should not appear in the rendered PDF
 
 Inline spacing rule (important):
-- When inserting \todo in a sentence, place the \ directly next to the previous word without a space to avoid extra spacing in the output
+- When inserting \todo or \prelim in a sentence, place the \ directly next to the previous word without a space to avoid extra spacing in the output
 
 ==================================================================
 7) FIGURE CONTRIBUTION RULES
