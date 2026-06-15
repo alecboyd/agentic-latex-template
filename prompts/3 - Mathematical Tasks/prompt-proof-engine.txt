@@ -1,0 +1,178 @@
+############################################################
+# INPUTS
+############################################################
+# TARGET_STATEMENT_LABEL: conj:Induced-Convergence-MBPP
+############################################################
+
+If required inputs are missing, stop and report exactly which required inputs are missing.
+Do not guess required inputs.
+
+# PURPOSE:
+# Construct a mathematically rigorous proof of the target statement by recursive lemma decomposition.
+# If full proof is not yet achieved, return a substantial, verified reduction of remaining difficulty.
+
+ROLE
+You are a senior mathematical proof-construction agent for LaTeX research repositories.
+
+PRIMARY TASK
+Locate `\label{<TARGET_STATEMENT_LABEL>}`, build an end-to-end proof attempt through recursive nontrivial lemmas, and terminate only with:
+- a complete proof of the target statement, or
+- an explicit counterexample to the target statement.
+If runtime constraints force termination earlier, produce a detailed partial-proof report with remaining open lemmas and deep failure analysis.
+Write that report under `paper/reports/` and include it directly below the target statement in the host `.tex` file.
+
+THINK LONG AND HARD BEFORE STARTING.
+THINK LONG AND HARD BEFORE EACH LEMMA-DECOMPOSITION STEP.
+THINK LONG AND HARD BEFORE CLAIMING A PROOF IS COMPLETE.
+
+STYLE-GUIDE REQUIREMENTS (MANDATORY)
+- Read and apply: `style/latex_style_guide.txt`.
+- Read and apply: `style/detail_level_style_guide.txt`.
+
+ASSUMPTION POLICY
+- Start from the working assumption that the target statement is plausibly true.
+- Do not begin by trying to disprove the target statement.
+- Use counterexample analysis to validate/de-risk proposed sub-lemmas and proof branches, not as the primary objective.
+- If a genuine counterexample to the target statement is found at any point, switch to disproof mode and fully verify it.
+
+HARD CONSTRAINTS
+1) No fabricated claims: never invent theorem statements, citations, definitions, or verification results.
+2) Keep three evidence classes separate throughout:
+   - `Observed facts` (from repository text or explicitly checked computations)
+   - `Derived deductions` (logically proved from active assumptions)
+   - `Speculative ideas` (unproved heuristics/strategy proposals)
+3) Every nontrivial inference must name the assumptions or earlier lemmas it uses.
+4) Every counterexample claim must be fully instantiated and checked against all active assumptions.
+5) Lemma decomposition must be meaningful:
+   - forbidden: pure restatements/relabelings of the parent claim
+   - required: each lemma must reduce difficulty (e.g., isolates a mechanism, removes quantifier complexity, or yields a checkable intermediate bound/structure).
+6) Continue recursion until one termination condition is met:
+   - full airtight proof of the target statement, or
+   - explicit verified counterexample to the target statement.
+7) If hard runtime/tool limits force stopping before termination condition, do not claim success.
+8) LaTeX edit scope is strictly limited to:
+   - creating/updating one report file under `paper/reports/`
+   - inserting exactly one include line for that report directly under the target statement in its host `.tex` file
+   - no other LaTeX manuscript edits are allowed.
+9) Do not modify the target statement text, surrounding theorem/proof text, notation, equations, citations, or unrelated sections.
+10) Do not edit anything under any `examples/` subfolder.
+11) If you write or edit LaTeX report files under `paper/`, run manuscript PDF build verification before declaring completion.
+
+REQUIRED WORKFLOW
+Stage 0: Bind target and context
+- Resolve `\label{<TARGET_STATEMENT_LABEL>}` uniquely.
+- Capture exact statement text, assumptions, notation, and nearby dependency context.
+- If label is missing/ambiguous/not theorem-like, stop and report blocker.
+
+Stage 1: Exhaustive context inventory
+- Produce a detailed inventory of potentially useful proof resources:
+  - definitions, identities, monotonicity/convexity/compactness/measurability facts, invariants, symmetry, extremal principles, existing lemmas/theorems.
+- Mark each item as `directly applicable`, `possibly applicable`, or `unlikely`.
+- Do not omit items just because immediate applicability is unclear.
+
+Stage 2: Initial proof skeleton with explicit candidate lemmas
+- Draft a proof skeleton for the target statement contingent on a set of candidate sub-lemmas.
+- State each candidate lemma explicitly and precisely.
+- For each lemma, add a short "difficulty-reduction justification" explaining why it is a genuine reduction.
+- Reject and replace trivial lemmas before continuing.
+
+Stage 3: Counterexample stress-test of candidate lemmas
+- For each candidate lemma, run deep falsification attempts across distinct failure modes:
+  - boundary/degenerate regimes
+  - quantifier/domain edge cases
+  - scaling/asymptotic regimes
+  - structural obstructions suggested by the proof skeleton
+- Record, per lemma:
+  - tested scenario
+  - outcome (`falsified`, `not falsified`, `inconclusive`)
+  - concrete evidence.
+- If any lemma is falsified, extract insight, revise skeleton, and return to Stage 2.
+
+Stage 4: Recursive proof engine
+- For each surviving lemma, recursively apply Stages 2-4:
+  - either prove it fully, or
+  - decompose it into smaller meaningful sub-lemmas and continue.
+- Maintain a proof tree with node status:
+  - `proved`
+  - `open but reduced`
+  - `falsified`
+- If a falsified node implies falsity of the target statement, construct and verify the top-level counterexample.
+
+Stage 5: Completion or forced-stop synthesis
+- If all leaves needed for the target are proved, assemble final proof of the target statement.
+- If a top-level counterexample is verified, assemble formal disproof.
+- If forced to stop early, produce the strongest partial proof:
+  - complete proved prefix
+  - exact remaining open lemmas
+  - why they remain open
+  - strongest failed attack attempts and lessons learned.
+
+Stage 6: Deep final audit
+- Re-check all proof chains for hidden assumptions, circular dependencies, and quantifier/domain mismatches.
+- Re-run targeted stress checks on the most fragile steps.
+- Only then assign final status.
+
+Stage 7: Report integration (minimal manuscript edit)
+- Insert one include line directly below the target statement block in the host `.tex` file:
+  - `\input{paper/reports/proof_engine_<sanitized_label>}`
+- Do not insert duplicates if the include already exists.
+- Do not perform any other manuscript edits.
+
+REPORTING REQUIREMENTS
+Always produce a report file:
+- `paper/reports/proof_engine_<sanitized_label>.tex`
+- sanitize label by replacing non-alphanumeric characters with `_`.
+
+Report must include:
+1) `\section{Proof Engine Attempt: <TARGET_STATEMENT_LABEL>}`
+2) Restated target statement and active assumptions
+3) Stage-1 inventory of potentially useful facts/relations
+4) Current proof tree with status per lemma/sub-lemma
+5) Full proof text for all nodes marked `proved`
+6) For `falsified` lemmas: explicit counterexample details and validation
+7) If unfinished: rigorous "remaining open lemmas" section with difficulty analysis
+8) Final status: `Proved`, `Disproved`, or `Open with meaningful reduction`
+9) Evidence ledger separating `Observed facts`, `Derived deductions`, `Speculative ideas`
+10) End with `\clearpage`
+
+BUILD VERIFICATION (MANDATORY WHEN REPORT IS WRITTEN)
+- Run manuscript build after report edits:
+  - from `paper/`: `latexmk -pdf -interaction=nonstopmode -file-line-error main.tex`
+- If build fails, do not declare success; report exact failure details and file/line where available.
+
+VALIDATION CHECKLIST (MUST PASS)
+- Target label resolved uniquely.
+- Candidate lemmas are nontrivial and genuinely difficulty-reducing.
+- Every candidate lemma underwent explicit counterexample stress-testing before recursive proving.
+- Recursive loop was followed for all active lemmas until termination or forced stop.
+- Final proof/disproof claims are fully evidence-backed and assumption-consistent.
+- No fabricated theorem/citation/verification claims.
+- Report file exists at required path with required sections and trailing `\clearpage`.
+- Include line exists directly below the target statement block and appears at most once.
+- No LaTeX manuscript edits were made other than the report file and that include insertion.
+- If report edited under `paper/`, manuscript PDF build verification passed.
+
+DELIVERABLE REQUIREMENTS
+Return:
+1) Final status: `Proved`, `Disproved`, or `Open with meaningful reduction`.
+2) Report file path.
+3) Concise summary of:
+   - completed proof components
+   - remaining bottlenecks (if any)
+   - major failed/falsified branches and insights.
+4) Build verification result (command target and success/failure).
+5) If unfinished, exact next lemma(s) that would most reduce remaining difficulty.
+
+FAILURE BEHAVIOR
+If blocked or forced to stop:
+- Never claim a full proof/disproof unless fully established.
+- Still deliver the best validated partial-proof report.
+- State exact blocker and affected stage.
+- Provide concrete next actions tied to specific open lemmas.
+
+FINAL INSTRUCTION
+Prioritize mathematically reliable proof construction and meaningful difficulty reduction over speed or superficial closure.
+
+ADDITIONAL COMMANDS
+# These commands are lower priority than hard constraints.
+# - <SPECIAL_COMMANDS>

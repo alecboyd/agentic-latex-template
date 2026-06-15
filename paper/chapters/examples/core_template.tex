@@ -70,8 +70,18 @@ for all $n\ge 0$.
 
 \begin{remark}
 \label{rem:adapt-model}
-In an actual project, replace \cref{def:admissible-sequence} by your domain-specific object and keep the same pattern: definition, immediate comment, first estimate, then structural theorem.
+In an actual project, replace \cref{def:admissible-sequence} by your domain-specific object and keep the same pattern: definition, immediate comment, first estimate, then structural theorem.\footnote{This is a footnote.}
 \end{remark}
+
+\begin{context}[Baseline Finite-Dimensional Setting]
+\label{ctx:baseline-setting}
+Throughout this template chapter, the ambient space $V$ is finite-dimensional, all norms are equivalent, and bounded sets are precompact. In an actual draft, a context block is a good place to fix these background conventions once and avoid restating them in every later statement.
+\end{context}
+
+\begin{assumption}[Smoothness Regime]
+\label{ass:smoothness-regime}
+Assume for the next group of examples that $F:V\to\mathbb{R}$ is continuously differentiable and that $\nabla F$ is locally Lipschitz on bounded sets.
+\end{assumption}
 
 \subsection{Sample Local Estimates}
 \label{ssec:local-estimates}
@@ -133,6 +143,11 @@ Then every accumulation point of $(x_n)$ is critical for $F$.
 \begin{proof}
 By \cref{cor:grad-summable}, $\|\nabla F(x_n)\|\to 0$ along a subsequence. Boundedness follows from \cref{lem:coercive-bound}, so compactness yields a convergent subsequence $x_{n_k}\to x_\ast$. Continuity of $\nabla F$ gives $\nabla F(x_\ast)=0$.
 \end{proof}
+
+\begin{conjecture}[Template Global Convergence Upgrade]
+\label{conj:template-global-upgrade}
+Under the assumptions of \cref{thm:template-convergence} together with a suitable Kurdyka--Lojasiewicz type inequality, the full sequence $(x_n)$ converges rather than merely admitting critical accumulation points.
+\end{conjecture}
 
 \begin{example}[Discrete Model Prompt]
 \label{ex:discrete-model}

@@ -73,8 +73,13 @@
 % TODO AND PRELIMINARY MARKER SYSTEM
 \RequirePackage{xparse}
 \RequirePackage{marginnote}
+\setlength{\marginparwidth}{0.72in}
+\setlength{\marginparsep}{6pt}
+\setlength{\marginparpush}{4pt}
 
 \makeatletter
+\@mparswitchfalse
+\normalmarginpar
 
 \newcounter{todocounter}
 \newcounter{prelimcounter}
@@ -105,39 +110,47 @@
 }
 
 % Inline format.
+\newcommand{\draftnotefont}{\scriptsize}
 \newcommand{\todoformat}[2]{%
   \ifinner
-    {\footnotesize\textbf{TODO: #1} #2}%
+    {\draftnotefont\textbf{TODO: #1} #2}%
   \else
-    \normalmarginpar\marginpar{\raggedright\footnotesize\textbf{TODO: #1}\\#2}%
+    \normalmarginpar\marginpar{\raggedright\draftnotefont\textbf{TODO: #1}\\#2}%
   \fi
 }
 \newcommand{\prelimformat}[3]{%
   \ifinner
-    {\footnotesize\textbf{PRELIM: #1} #2 (#3)}%
+    {\draftnotefont\textbf{PRELIM: #1} #2 (#3)}%
   \else
-    \reversemarginpar\marginpar{\raggedright\footnotesize\textbf{PRELIM: #1}\\#2\\\emph{#3}}%
+    \reversemarginpar\marginpar{\raggedright\draftnotefont\textbf{PRELIM: #1}\\#2\\\emph{#3}}%
   \fi
 }
 
 % One row in the printed list.
 \newcommand{\todoListRow}[2]{%
-  \hypertarget{todolist.#1}{}\hyperlink{todo.#1}{\textbf{#1}} & #2\\%
+  \hypertarget{todolist.#1}{}\hyperlink{todo.#1}{\textbf{#1}} & #2 & \\%
 }
 \newcommand{\prelimListRow}[3]{%
   \hypertarget{prelimlist.#1}{}\hyperlink{prelim.#1}{\textbf{#1}} & #2 & #3\\%
+}
+\newcommand{\draftlistheading}[1]{%
+  \par\medskip
+  \begin{center}
+    \normalsize\bfseries #1
+  \end{center}
+  \vspace{-0.5\baselineskip}
 }
 
 % Print the list wherever desired.
 \newcommand{\listoftodos}{%
   \iftodosvisible
-    \section*{Todo List}
-    \begin{tabularx}{\textwidth}{@{}p{1.8cm}X@{}}
+    \draftlistheading{Todo List}
+    \begin{tabularx}{\textwidth}{@{}p{1.2cm}XX@{}}
       \toprule
-      \textbf{\#} & \textbf{Caption} \\
+      \textbf{\#} & \textbf{Caption} & \textbf{} \\
       \midrule
       \ifx\alltodos\@empty
-        \multicolumn{2}{@{}l@{}}{\textit{No todos found.}}\\
+        \multicolumn{3}{@{}l@{}}{\textit{No todos found.}}\\
       \else
         \alltodos
       \fi
@@ -147,7 +160,7 @@
 }
 \newcommand{\listofprelims}{%
   \ifprelimsvisible
-    \section*{Preliminary Marker List}
+    \draftlistheading{Preliminary Marker List}
     \begin{tabularx}{\textwidth}{@{}p{1.2cm}XX@{}}
       \toprule
       \textbf{\#} & \textbf{Description} & \textbf{Reference} \\

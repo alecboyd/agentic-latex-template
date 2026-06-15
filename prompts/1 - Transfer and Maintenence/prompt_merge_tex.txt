@@ -26,10 +26,12 @@ REPOSITORY-SPECIFIC CONTEXT (MUST FOLLOW)
   - elements -> no chapter or figure imports
 - Structural refinement rule (mandatory):
   - Large chapter files must be split by top-level `\section{...}` boundaries into
-    section-scoped files under a chapter subdirectory, with a thin parent index file
-    that only assembles them via `\input`.
+    section-scoped files placed directly under `paper/chapters` (no chapter subfolders).
+  - `paper/main.tex` must include chapter files directly in order via `\input{chapters/...}`.
+  - Do not route manuscript chapters through an intermediate chapter index file
+    (for example `graphsedges.tex`).
   - Apply the same pattern to large appendices: split by top-level section where feasible,
-    keeping `\appendix` in the parent index file.
+    while keeping appendix files directly under `paper/chapters`.
   - Preserve exact section ordering and exact content during the split.
   - Use stable, descriptive filenames with numeric prefixes to preserve order.
 - Style authority:
@@ -55,6 +57,7 @@ HARD CONSTRAINTS
 5. Do not leave template placeholder content mixed into final manuscript chapters.
 6. If `merge/` is empty or missing, stop immediately and report that as a blocker.
 7. Before declaring completion, you must run a LaTeX build and confirm successful PDF generation for the edited manuscript target.
+8. Keep all generated LaTeX artifacts in `paper/` (never leave build outputs in repository root).
 
 REQUIRED MULTI-STAGE WORKFLOW
 
@@ -79,7 +82,8 @@ Stage 2: Perform the transfer into template structure
 - Split content between chapters/appendix coherently while preserving content exactly.
 - Perform structural decomposition of monolithic chapter files:
   - one top-level section per child file where possible,
-  - parent chapter file becomes an include/index file only.
+  - place child files directly in `paper/chapters` (no subfolders),
+  - wire chapter files directly in `paper/main.tex` in exact order.
 - Convert theorem-like content into the proper environment blocks.
 - Preserve labels where possible and normalize new labels to repository prefixes:
   - `sec:`, `ssec:`, `sssec:`, `eq:`, `def:`, `rem:`, `lem:`, `prop:`, `cor:`, `thm:`, `ex:`, `app:`
@@ -102,8 +106,8 @@ Stage 3: Audit transfer completeness and template residue
 - Confirm no source content from `merge/` was dropped, merged incorrectly, or duplicated unintentionally.
 - Confirm that examples folders remain untouched.
 - Confirm structural refinement completeness:
-  - every top-level section from source appears once in the new chapter index decomposition,
-  - rebuilding chapter text by concatenating child section files reproduces source content exactly.
+  - every top-level section from source appears once in the direct `paper/main.tex` chapter include list,
+  - rebuilding chapter text by concatenating included section files reproduces source content exactly.
 
 Stage 4: Cleanliness pass on `paper/` codebase
 - Improve maintainability without changing content:
@@ -116,6 +120,8 @@ Stage 4: Cleanliness pass on `paper/` codebase
 Stage 5: Final validation and equivalence checks
 - Validate content parity between `merge/` and final `paper/`.
 - Compile and verify successful PDF build for the edited manuscript target (do not finish without a successful build).
+  - Build from `paper/` using `latexmk -pdf -interaction=nonstopmode -file-line-error main.tex`,
+    or use an equivalent invocation that keeps outputs in `paper/`.
 - Check references/citations for breakage.
 - Reconfirm examples files were not deleted or modified.
 - Reconfirm no unwanted template placeholder content remains in active manuscript files.
